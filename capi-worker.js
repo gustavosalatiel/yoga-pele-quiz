@@ -253,14 +253,4 @@ function jsonResponse(data, status = 200, origin = "") {
  *       '; SameSite=Lax';
  *   }
  *
- *   // Expõe no dataLayer para uso nas tags GTM
- *   window.dataLayer = window.dataLayer || [];
- *   window.dataLayer.push({
- *     event: 'capi_preload',
- *     fbc: getCookie('_fbc'),
- *     fbp: getCookie('_fbp'),
- *     fbclid: fbclid || null
- *   });
- * })();
- * </script>
- */
+ *   // Expõe no dataLayer p

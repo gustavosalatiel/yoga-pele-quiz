@@ -409,6 +409,9 @@
     .mf-footer a { color: #fff; text-decoration: none; }
     .mf-footer a:hover { text-decoration: underline; }
 
+    /* ── Hide empty opt-icon ── */
+    .opt-icon:empty { display: none; }
+
     /* ── Zone img selected glow ── */
     .opt-item.selected .zone-img { box-shadow: 0 0 0 2.5px var(--pink), 0 2px 10px rgba(232,96,122,.3); }
 
@@ -808,8 +811,8 @@
 // ── STATE ──
 let currentStep = 0;
 const answers = {};
-const QUIZ_STEPS = 9;
-const QUIZ_PROGRESS_STEPS = 9; // questions only (info slides don't count)
+const QUIZ_STEPS = 10;
+const QUIZ_PROGRESS_STEPS = 10; // questions only (info slides don't count)
 
 // Which steps are "question" steps (advance progress) — 17 entries, index 0-16
 const isQuestion = [false, true, true, true, false, true, true, true, true, false, true, true, false, false, false, false, true];
@@ -1220,7 +1223,7 @@ const steps = {
     <div class="q-title">¿Ya probaste hacer algo para <em>mejorar tu cara?</em></div>
     <div class="q-sub">Puedes elegir más de una opción</div>
     <div class="opt-list">
-      ${checkOpt('probaste','nada','😈','Nunca probé nada todavía')}
+      ${checkOpt('probaste','nada','🤩','Nunca probé nada todavía')}
       ${checkOpt('probaste','youtube','😬','Vi videos en YouTube pero no fui constante')}
       ${checkOpt('probaste','cremas','😟','Usé cremas o productos pero no vi resultados reales')}
       ${checkOpt('probaste','estetico','🤔','Hice algún tratamiento estético o lo estoy considerando')}
@@ -1294,30 +1297,30 @@ const steps = {
     <div class="q-title">¿Con qué quieres verte <em>diferente</em> en 4 semanas?</div>
     <div class="q-sub">Puedes elegir más de una</div>
     <div class="opt-grid2">
-      ${checkGrid('metas','papada','🚩','Reducir la papada')}
-      ${checkGrid('metas','mandibula','🔥','Definir mi mandíbula')}
+      ${checkGrid('metas','papada','🏳️','Reducir la papada')}
+      ${checkGrid('metas','mandibula','✍️','Definir mi mandíbula')}
       ${checkGrid('metas','parpados','👁','Levantar mis párpados')}
       ${checkGrid('metas','mejillas','🌸','Tonificar mis mejillas')}
       ${checkGrid('metas','cuello','🦢','Afirmar mi cuello')}
-      ${checkGrid('metas','cara','🧍','Desinflamar mi cara')}
+      ${checkGrid('metas','cara','💆‍♀️','Desinflamar mi cara')}
       ${checkGrid('metas','fotos','📸','Verme menos cansada en las fotos')}
       ${checkGrid('metas','piel','✨','Tener la piel más luminosa')}
     </div>
     <div class="need-select">Selecciona al menos una opción</div>
     <button class="btn-continue ${(answers['metas']||[]).length>0?'enabled':''}" id="continue-btn" data-key="metas" onclick="continueStep(8)">Continuar</button>`,
 
-  // ── S8: ZONES (multi-check with SVG face images) ──
+  // ── S8: ZONES (multi-check plain text) ──
   8: () => `
     <div class="q-title">¿Qué zonas de tu cara quieres mejorar?</div>
     <div class="q-sub">Puedes elegir más de una</div>
     <div class="opt-list">
-      ${checkZone('zonas','frente','Frente')}
-      ${checkZone('zonas','ojos','Ojos y párpados')}
-      ${checkZone('zonas','mejillas','Mejillas')}
-      ${checkZone('zonas','boca','Boca')}
-      ${checkZone('zonas','menton','Mentón y papada')}
-      ${checkZone('zonas','mandibula','Mandíbula')}
-      ${checkZone('zonas','cuello','Cuello')}
+      ${checkOpt('zonas','frente','','Frente')}
+      ${checkOpt('zonas','ojos','','Ojos y párpados')}
+      ${checkOpt('zonas','mejillas','','Mejillas')}
+      ${checkOpt('zonas','boca','','Boca')}
+      ${checkOpt('zonas','menton','','Mentón y papada')}
+      ${checkOpt('zonas','mandibula','','Mandíbula')}
+      ${checkOpt('zonas','cuello','','Cuello')}
     </div>
     <button class="btn-continue ${(answers['zonas']||[]).length>0?'enabled':''}" id="continue-btn" data-key="zonas" onclick="continueStep(9)">Continuar</button>`,
 
@@ -1375,7 +1378,7 @@ const steps = {
       ${radioOpt('momento','manana','🌅','Por la mañana — empiezo el día cuidándome')}
       ${radioOpt('momento','noche','🌙','Por la noche — es mi momento de desconexión')}
       ${radioOpt('momento','mediodia','☀️','Al mediodía — aprovecho el descanso')}
-      ${radioOpt('momento','varia','🤹','Varía — necesito algo flexible')}
+      ${radioOpt('momento','varia','🤷‍♀️','Varía — necesito algo flexible')}
     </div>
     <div class="q-hint">El 80% de las alumnas del <em>Método Florecer</em> realizan su rutina de noche, es su momento de desconexión y autocuidado.</div>`,
 
@@ -1425,14 +1428,14 @@ const steps = {
   // ── S13: CONTENT SHOWCASE ──
   13: () => `
     <div class="q-title" style="text-align:center">Con el <em>Método Florecer</em>, tu cara va a contar lo que realmente eres</div>
-    <div style="border-radius:16px;overflow:hidden;position:relative">
-      <img src="lg-IwgH0-laura-fazio-ejercicio-facial-yt-profile-photo-800-800.png" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top center;display:block">
-      <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,0.65))">
-        <div style="color:var(--pink-btn);font-size:11px;font-weight:700;letter-spacing:.06em">Rutinas diarias por zona</div>
-        <div style="color:#fff;font-size:16px;font-weight:700">Ejercicios específicos para cada área</div>
-      </div>
+    <div style="display:flex;justify-content:center;margin:4px 0">
+      <img src="lg-IwgH0-laura-fazio-ejercicio-facial-yt-profile-photo-800-800.png" style="width:110px;height:110px;border-radius:50%;object-fit:cover;object-position:top center;display:block;border:3px solid var(--pink-light);box-shadow:0 4px 16px rgba(232,96,122,.18)">
     </div>
-    <div style="font-size:13px;color:var(--gray);line-height:1.6">Para cada zona que te preocupa — <strong style="color:var(--dark)">10 minutos al día desde tu casa</strong></div>
+    <div style="display:flex;justify-content:center">
+      <div style="background:var(--pink);color:#fff;font-size:12px;font-weight:700;padding:6px 16px;border-radius:99px;display:inline-flex;align-items:center;gap:5px">❤️ Rutinas diarias por zona</div>
+    </div>
+    <div style="text-align:center;font-size:17px;font-weight:700;color:var(--dark);line-height:1.3">Ejercicios específicos para cada área</div>
+    <div style="font-size:13px;color:var(--gray);line-height:1.6;text-align:center">Para cada zona que te preocupe — <strong style="color:var(--dark)">10 minutos al día desde tu casa</strong></div>
     <div class="ba-slider-wrap" id="ba-slider-s13" style="border-radius:16px;overflow:hidden;position:relative;user-select:none;touch-action:none">
       <img src="lg-1J8rK-img-1.webp" style="width:100%;display:block">
       <div class="ba-slider-after" style="position:absolute;top:0;left:0;width:50%;height:100%;overflow:hidden">
@@ -1630,7 +1633,7 @@ function toggleFaq(btn) {
 </script>
 
 <!-- ── GTM noscript (fallback sem JavaScript) ── -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58VNW6HN"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- ══════════════════════════════════════════════════════════════
@@ -1654,12 +1657,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     var eventId = 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
 
     // ── 1. Server-side via Worker (não bloqueado por iOS/adblocker) ──
-    fetch(CAPI_WORKER_URL, {
+    fetch(CAPI_WORKER_URL + '/capi/events', {
       method   : 'POST',
       headers  : { 'Content-Type': 'application/json' },
       keepalive: true,
       body: JSON.stringify({
-        events  : [{
+        data: [{
           event_name      : eventName,
           event_time      : Math.floor(Date.now() / 1000),
           event_source_url: window.location.href,
