@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metodo Florecer BY Helena Rodriguez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: #fff;
+      font-family: Inter, system-ui, sans-serif;
+      font-size: 16px;
+      color: #1C1C1E;
+    }
+
+    /* ── COLORS ── */
+    :root {
+      --pink: #E8607A;
+      --pink-light: #FEF0F2;
+      --pink-btn: #FDA4AF;
+      --pink-btn-text: #4C0519;
+      --pink-avatar: #F9D6DC;
+      --dark: #1C1C1E;
+      --gray: #6B6B6B;
+      --gray-light: #9B9B9B;
+      --glow: rgba(217,119,87,.69) 0 0 14.7px inset, rgba(217,119,87,.49) 0 0 24.7px inset, rgba(217,119,87,.19) 0 0 34.7px inset;
+    }
+
+    /* ── FRAME ── */
+    .page-frame {
+      min-height: 100vh;
+      background: #fff;
+      box-shadow: var(--glow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── SCREEN SYSTEM ── */
+    .screen { display: none; flex-direction: column; flex: 1; }
+    .screen.active { display: flex; }
+
+    /* ───────────────────────────────────────────────
+       LANDING
+    ─────────────────────────────────────────────── */
+    .landing {
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      gap: 24px;
+    }
+    .hook-card { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 20px; }
+    .chip { display: inline-flex; align-items: center; gap: 7px; background: var(--pink-light); color: var(--pink); font-size: 11px; font-weight: 700; letter-spacing: .06em; border-radius: 99px; padding: 7px 14px; width: fit-content; }
+    .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); flex-shrink: 0; }
+    .grad-line { width: 40px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--pink), #F4A0B0); }
+    .hook-title { color: var(--dark); font-size: 36px; font-weight: 800; line-height: 1.2; }
+    .hook-title em { color: var(--pink); font-style: italic; }
+    .hook-sub { color: var(--gray); font-size: 15px; line-height: 1.55; }
+    .hook-sub strong { color: var(--dark); }
+    .laura-card { background: var(--pink-light); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+    .laura-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--pink-avatar); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .laura-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .laura-name { color: var(--dark); font-size: 13px; font-weight: 700; }
+    .laura-desc { color: var(--gray-light); font-size: 11px; }
+    .laura-badge { background: rgba(232,96,122,.10); color: var(--pink); font-size: 10px; font-weight: 700; border-radius: 99px; padding: 4px 10px; white-space: nowrap; }
+    .proof-row { display: flex; align-items: center; gap: 10px; }
+    .avatars { display: flex; }
+    .mini-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--pink-avatar); box-shadow: 0 2px 6px rgba(0,0,0,.08); display: flex; align-items: center; justify-content: center; font-size: 14px; margin-left: -8px; border: 2px solid #fff; }
+    .avatars .mini-avatar:first-child { margin-left: 0; }
+    .proof-text { color: var(--gray-light); font-size: 12.5px; font-weight: 500; line-height: 1.5; }
+    .proof-text strong { color: var(--dark); }
+    .cta-hint { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 4px; }
+    .cta-label { color: #BBBBBB; font-size: 12px; font-weight: 500; text-align: center; }
+    .cta-arrow { color: var(--pink); font-size: 22px; animation: bounce 1.4s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+    .btn-wrap { width: 100%; max-width: 440px; }
+    .btn-pink { width: 100%; background: var(--pink-btn); color: var(--pink-btn-text); border: none; border-radius: 16px; font-size: 16px; font-weight: 500; letter-spacing: .07em; padding: 18px 24px; cursor: pointer; font-family: inherit; transition: opacity .18s, transform .12s; }
+    .btn-pink:hover { opacity: .88; transform: scale(1.01); }
+    .btn-pink:active { transform: scale(.98); }
+
+    /* ───────────────────────────────────────────────
+       QUIZ WRAPPER
+    ─────────────────────────────────────────────── */
+    .quiz-screen { padding: 0; overflow-y: auto; }
+    .quiz-header { position: sticky; top: 0; z-index: 10; background: #fff; padding: 14px 20px 0; }
+    .back-btn { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--dark); padding: 0; line-height: 1; display: flex; align-items: center; gap: 6px; }
+    .progress-bar { margin-top: 12px; height: 8px; background: rgba(253,164,175,.25); border-radius: 99px; overflow: hidden; position: relative; }
+    .progress-fill { height: 100%; background: var(--pink-btn); border-radius: 99px; transition: width .7s ease; }
+    .quiz-body { padding: 24px 20px 32px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+
+    /* ── Quiz Titles ── */
+    .q-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--pink-light); color: var(--pink); font-size: 11px; font-weight: 700; letter-spacing: .06em; border-radius: 99px; padding: 6px 12px; width: fit-content; }
+    .q-title { font-size: 26px; font-weight: 800; line-height: 1.25; color: var(--dark); }
+    .q-title em { color: var(--pink); font-style: italic; }
+    .q-sub { font-size: 13px; color: var(--gray-light); }
+    .q-sub em { font-style: italic; color: var(--pink); }
+
+    /* ── Photo Options (Q1) ── */
+    .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .photo-opt { border: none; background: var(--pink-btn); border-radius: 14px; overflow: hidden; cursor: pointer; position: relative; padding: 0; transition: transform .12s, box-shadow .12s; }
+    .photo-opt:hover { transform: scale(1.02); box-shadow: 0 4px 16px rgba(232,96,122,.25); }
+    .photo-opt img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .photo-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(253,164,175,.88); color: #fff; font-size: 13px; font-weight: 600; font-style: italic; text-align: center; padding: 8px; }
+
+    /* ── List Options ── */
+    .opt-list { display: flex; flex-direction: column; gap: 10px; }
+    .opt-item { display: flex; align-items: center; gap: 12px; background: var(--pink-light); border: 2px solid transparent; border-radius: 14px; padding: 14px 14px; cursor: pointer; transition: border-color .15s, background .15s; text-align: left; width: 100%; font-family: inherit; }
+    .opt-item:hover { border-color: rgba(232,96,122,.3); }
+    .opt-item.selected { border-color: var(--pink); background: #fff; }
+    .opt-icon { font-size: 22px; flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .opt-text { flex: 1; }
+    .opt-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+    .opt-desc { font-size: 12px; color: var(--gray-light); margin-top: 2px; }
+    .opt-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid #ddd; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background .15s, border-color .15s; }
+    .opt-item.selected .opt-check { background: var(--pink); border-color: var(--pink); }
+    .opt-item.selected .opt-check::after { content: '✓'; color: #fff; font-size: 12px; font-weight: 700; }
+    .opt-radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ddd; flex-shrink: 0; transition: border-color .15s; display: flex; align-items: center; justify-content: center; }
+    .opt-item.selected .opt-radio { border-color: var(--pink); }
+    .opt-item.selected .opt-radio::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--pink); display: block; }
+
+    /* Simple text only options */
+    .opt-simple { display: block; background: var(--pink-light); border: 2px solid transparent; border-radius: 14px; padding: 16px 20px; cursor: pointer; text-align: left; width: 100%; font-family: inherit; font-size: 14px; font-weight: 500; color: var(--dark); transition: border-color .15s; }
+    .opt-simple:hover { border-color: rgba(232,96,122,.3); }
+    .opt-simple.selected { border-color: var(--pink); background: #fff; }
+
+    /* ── Grid 2-col options (Q6) ── */
+    .opt-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .opt-grid-item { display: flex; align-items: center; gap: 8px; background: var(--pink-light); border: 2px solid transparent; border-radius: 12px; padding: 12px 10px; cursor: pointer; text-align: left; font-family: inherit; transition: border-color .15s; }
+    .opt-grid-item:hover { border-color: rgba(232,96,122,.3); }
+    .opt-grid-item.selected { border-color: var(--pink); background: #fff; }
+    .opt-grid-item .opt-icon { font-size: 18px; width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0; }
+    .opt-grid-item .opt-name { font-size: 12.5px; font-weight: 600; color: var(--dark); }
+    .opt-grid-item .opt-check { width: 18px; height: 18px; border-radius: 5px; border: 2px solid #ddd; margin-left: auto; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background .15s, border-color .15s; }
+    .opt-grid-item.selected .opt-check { background: var(--pink); border-color: var(--pink); }
+    .opt-grid-item.selected .opt-check::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 700; }
+
+    /* ── Info boxes ── */
+    .info-box { border-radius: 14px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; }
+    .info-box.light { background: var(--pink-light); }
+    .info-box.dark { background: #1a1a2e; }
+    .info-box.dark * { color: #fff !important; }
+    .info-box.dark strong { color: #fff !important; }
+    .info-text { font-size: 13px; line-height: 1.55; color: var(--gray); }
+    .info-text strong { color: var(--dark); }
+    .info-text .pink { color: var(--pink); font-weight: 700; }
+    .info-box.dark .info-text { color: rgba(255,255,255,.85); font-size: 13px; }
+    .info-box.dark .info-text strong { color: #fff; }
+    .info-box.dark .info-text .pink { color: var(--pink-btn); }
+    .info-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Hint text ── */
+    .q-hint { font-size: 12.5px; color: var(--gray-light); line-height: 1.55; }
+    .q-hint em { color: var(--pink); font-style: italic; }
+    .q-hint strong { color: var(--dark); }
+    .need-select { font-size: 12px; color: #ccc; text-align: center; }
+
+    /* ── Buttons ── */
+    .btn-continue { width: 100%; background: var(--pink-btn); color: var(--pink-btn-text); border: none; border-radius: 14px; font-size: 16px; font-weight: 500; padding: 16px; cursor: pointer; font-family: inherit; opacity: .5; pointer-events: none; transition: opacity .2s; }
+    .btn-continue.enabled { opacity: 1; pointer-events: all; }
+    .btn-continue.enabled:hover { opacity: .88; }
+    .btn-info { width: 100%; background: var(--pink-btn); color: var(--pink-btn-text); border: none; border-radius: 14px; font-size: 16px; font-weight: 500; padding: 16px; cursor: pointer; font-family: inherit; transition: opacity .2s; }
+    .btn-info:hover { opacity: .88; }
+
+    /* ───────────────────────────────────────────────
+       INFO SLIDE: YOGA FACIAL
+    ─────────────────────────────────────────────── */
+    .info-hero { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    .info-emoji-circle { width: 80px; height: 80px; border-radius: 50%; background: var(--pink-light); display: flex; align-items: center; justify-content: center; font-size: 36px; }
+    .info-title { font-size: 22px; font-weight: 800; color: var(--dark); }
+    .info-title em { color: var(--pink); font-style: italic; }
+    .info-desc { font-size: 14px; color: var(--gray); line-height: 1.6; }
+    .info-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--pink); text-align: center; display: flex; align-items: center; gap: 8px; }
+    .info-label::before, .info-label::after { content: ''; flex: 1; height: 1px; background: var(--pink-light); }
+    .feature-list { display: flex; flex-direction: column; gap: 10px; }
+    .feature-item { display: flex; align-items: center; gap: 12px; background: var(--pink-light); border-radius: 14px; padding: 14px; }
+    .feature-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--pink); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .feature-text { display: flex; flex-direction: column; gap: 2px; }
+    .feature-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .feature-desc { font-size: 12px; color: var(--gray-light); }
+
+    /* ───────────────────────────────────────────────
+       INFO SLIDE: CHART
+    ─────────────────────────────────────────────── */
+    .chart-box { background: #fff; border: 1.5px solid var(--pink-light); border-radius: 14px; padding: 16px; }
+    .chart-legend { display: flex; gap: 16px; margin-bottom: 12px; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--gray); }
+    .legend-line { width: 20px; height: 2px; }
+    .legend-line.pink { background: var(--pink); }
+    .legend-line.gray { background: #ccc; border-top: 2px dashed #ccc; background: none; }
+    .chart-area { position: relative; height: 160px; }
+    .chart-svg { width: 100%; height: 100%; }
+    .chart-badge { background: var(--pink); color: #fff; font-size: 10px; font-weight: 700; border-radius: 99px; padding: 4px 10px; width: fit-content; margin-left: auto; display: flex; align-items: center; gap: 5px; }
+    .insight-box { border-left: 3px solid var(--pink); background: var(--pink-light); border-radius: 0 12px 12px 0; padding: 14px 14px; }
+    .insight-text { font-size: 13px; color: var(--gray); line-height: 1.55; }
+    .insight-text .pink-bold { color: var(--pink); font-weight: 700; }
+
+    /* Chart animations */
+    @keyframes drawLine {
+      from { stroke-dashoffset: 400; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes fillArea {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .chart-line-pink {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      animation: drawLine 1.5s ease forwards 0.3s;
+    }
+    .chart-area-fill {
+      opacity: 0;
+      animation: fillArea 0.8s ease forwards 1.5s;
+    }
+    .chart-dot-anim {
+      opacity: 0;
+      animation: fillArea 0.3s ease forwards;
+    }
+    .chart-dot-anim:nth-child(1) { animation-delay: 0.5s; }
+    .chart-dot-anim:nth-child(2) { animation-delay: 0.9s; }
+    .chart-dot-anim:nth-child(3) { animation-delay: 1.2s; }
+    .chart-dot-anim:nth-child(4) { animation-delay: 1.5s; }
+
+    /* ───────────────────────────────────────────────
+       TESTIMONIALS SLIDE
+    ─────────────────────────────────────────────── */
+    .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .video-card { border-radius: 12px; overflow: hidden; position: relative; background: #222; aspect-ratio: 9/12; }
+    .video-card img { width: 100%; height: 100%; object-fit: cover; }
+    .video-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .video-play-btn { width: 48px; height: 48px; background: #ff0000; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .video-play-btn::after { content: '▶'; color: #fff; font-size: 16px; margin-left: 3px; }
+    .video-label { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,.55); color: #fff; font-size: 11px; font-weight: 700; border-radius: 6px; padding: 3px 7px; }
+    .carousel-dots { display: flex; justify-content: center; gap: 6px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pink-light); }
+    .dot.active { background: var(--pink); }
+    .review-card { background: var(--pink-light); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .review-head { display: flex; align-items: center; gap: 10px; }
+    .review-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--pink-avatar); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .review-info { flex: 1; }
+    .review-name { font-size: 13px; font-weight: 700; color: var(--dark); }
+    .review-city { font-size: 11px; color: var(--gray-light); }
+    .review-stars { color: #F59E0B; font-size: 14px; }
+    .review-quote { font-size: 13px; color: var(--gray); line-height: 1.6; font-style: italic; }
+    .review-quote .pink { color: var(--pink); font-weight: 700; font-style: normal; }
+    .social-dark { background: #1a1a2e; border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+    .social-dark-text { font-size: 13px; color: rgba(255,255,255,.85); line-height: 1.5; }
+    .social-dark-text strong { color: #fff; }
+
+    /* ── Loading stage ── */
+    .loading-stage { margin-top: 4px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--gray-light); text-align: center; }
+
+    /* ───────────────────────────────────────────────
+       RESULT PAGE
+    ─────────────────────────────────────────────── */
+    .result-screen { overflow-y: auto; }
+    .result-body { padding: 20px; max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 24px; padding-bottom: 40px; }
+    .result-header { display: flex; flex-direction: column; gap: 12px; text-align: center; padding-top: 12px; }
+    .result-title { font-size: 28px; font-weight: 800; color: var(--dark); line-height: 1.2; }
+    .result-title em { color: var(--pink); font-style: italic; }
+    .result-sub { font-size: 14px; color: var(--gray); line-height: 1.55; }
+    .result-sub strong { color: var(--dark); }
+
+    /* Comparison boxes */
+    .compare-box { border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .compare-box.bad { background: #FFF5F5; border: 1.5px solid #FFD5D5; }
+    .compare-box.good { background: var(--pink-light); border: 1.5px solid rgba(232,96,122,.2); }
+    .compare-head { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .compare-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--gray); line-height: 1.4; }
+    .compare-item .ico { flex-shrink: 0; }
+
+    /* Before/After carousel */
+    .ba-carousel { position: relative; }
+    .ba-slide { display: none; }
+    .ba-slide.active { display: block; }
+    .ba-img-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; border-radius: 14px; overflow: hidden; }
+    .ba-img-wrap img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+    .ba-label { text-align: center; background: rgba(0,0,0,.5); color: #fff; font-size: 13px; font-weight: 600; padding: 6px; }
+    .ba-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.9); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+    .ba-prev { left: -14px; }
+    .ba-next { right: -14px; }
+    .ba-caption { text-align: center; font-size: 12px; color: var(--gray-light); margin-top: 8px; }
+
+    /* Countdown */
+    .countdown-box { background: #12001A; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .countdown-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--pink-btn); display: flex; align-items: center; gap: 6px; }
+    .countdown-timer { display: flex; align-items: center; gap: 8px; }
+    .countdown-unit { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .countdown-num { background: #2a1a2e; color: #fff; font-size: 36px; font-weight: 800; border-radius: 10px; width: 72px; text-align: center; padding: 8px 4px; line-height: 1; }
+    .countdown-text { font-size: 9px; font-weight: 700; letter-spacing: .08em; color: rgba(255,255,255,.5); }
+    .countdown-sep { color: var(--pink); font-size: 28px; font-weight: 700; margin-bottom: 20px; }
+    .countdown-note { font-size: 12px; color: rgba(255,255,255,.6); text-align: center; line-height: 1.5; }
+    .countdown-note strong { color: #fff; }
+    .countdown-bar { width: 100%; height: 4px; border-radius: 99px; background: rgba(255,255,255,.1); overflow: hidden; }
+    .countdown-bar-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--pink-btn)); border-radius: 99px; width: 60%; animation: shrink 3600s linear forwards; }
+    @keyframes shrink { to { width: 0; } }
+
+    /* Dark testimonial */
+    .dark-review { background: #1a1a2e; border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .dark-review .review-head .review-name { color: #fff; }
+    .dark-review .review-head .review-city { color: rgba(255,255,255,.5); }
+    .dark-review .review-stars { color: #F59E0B; }
+    .dark-review .review-quote { color: rgba(255,255,255,.8); }
+    .dark-review .review-quote .pink { color: var(--pink-btn); }
+    .verified-badge { background: rgba(232,96,122,.2); color: var(--pink-btn); font-size: 11px; font-weight: 700; border-radius: 99px; padding: 4px 10px; width: fit-content; }
+
+    /* Plans */
+    .plan-basic { background: #fff; border: 1.5px solid #eee; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .plan-featured { background: #1a1a2e; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .plan-full { background: #fff; border: 1.5px solid #eee; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .plan-badge { display: flex; align-items: center; gap: 6px; }
+    .plan-tag { background: var(--pink); color: #fff; font-size: 10px; font-weight: 700; border-radius: 99px; padding: 3px 10px; }
+    .plan-tag.dim { background: rgba(255,255,255,.15); color: rgba(255,255,255,.8); }
+    .plan-best { background: var(--pink); color: #fff; font-size: 10px; font-weight: 700; border-radius: 99px; padding: 4px 12px; display: flex; align-items: center; gap: 5px; }
+    .plan-name { font-size: 22px; font-weight: 800; color: var(--dark); }
+    .plan-featured .plan-name { color: #fff; }
+    .plan-duration { font-size: 13px; color: var(--gray-light); display: flex; align-items: center; gap: 6px; }
+    .plan-featured .plan-duration { color: rgba(255,255,255,.5); }
+    .plan-items-wrap { background: rgba(0,0,0,.03); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .plan-featured .plan-items-wrap { background: rgba(255,255,255,.06); }
+    .plan-items-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--gray-light); }
+    .plan-featured .plan-items-label { color: rgba(255,255,255,.4); }
+    .plan-item { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--gray); }
+    .plan-featured .plan-item { color: rgba(255,255,255,.7); }
+    .plan-item-name { display: flex; align-items: flex-start; gap: 6px; flex: 1; }
+    .plan-item-price { color: var(--gray-light); font-size: 12px; flex-shrink: 0; margin-left: 8px; }
+    .plan-featured .plan-item-price { color: rgba(255,255,255,.3); }
+    .plan-total { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #eee; font-size: 13px; color: var(--gray-light); }
+    .plan-featured .plan-total { border-top-color: rgba(255,255,255,.1); color: rgba(255,255,255,.4); }
+    .plan-price-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--pink); }
+    .plan-price { font-size: 36px; font-weight: 800; color: var(--dark); line-height: 1; }
+    .plan-price .currency { font-size: 18px; vertical-align: super; margin-right: 2px; }
+    .plan-price .cur-suffix { font-size: 16px; font-weight: 400; color: var(--gray-light); margin-left: 4px; }
+    .plan-featured .plan-price { color: #fff; }
+    .plan-featured .plan-price .cur-suffix { color: rgba(255,255,255,.4); }
+    .plan-btn { width: 100%; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; padding: 16px; cursor: pointer; font-family: inherit; transition: opacity .2s; }
+    .plan-btn.light-btn { background: var(--pink-btn); color: var(--pink-btn-text); }
+    .plan-btn.featured-btn { background: linear-gradient(135deg, var(--pink), #c94065); color: #fff; }
+    .plan-btn:hover { opacity: .88; }
+    .plan-perday { font-size: 12px; color: var(--gray-light); text-align: center; }
+    .plan-featured .plan-perday { color: rgba(255,255,255,.4); }
+    .plan-timer-note { font-size: 11px; color: var(--gray-light); text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .plan-featured .plan-timer-note { color: rgba(255,255,255,.35); }
+    .plan-info { background: rgba(232,96,122,.08); border-radius: 10px; padding: 12px; font-size: 13px; color: var(--gray); line-height: 1.55; display: flex; gap: 8px; }
+    .plan-info .pink { color: var(--pink); font-weight: 700; }
+
+    /* Guarantee */
+    .guarantee { background: var(--pink-light); border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px; }
+    .guarantee-badge { width: 52px; height: 52px; border-radius: 50%; background: var(--pink); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
+    .guarantee-badge .g-num { font-size: 16px; font-weight: 800; line-height: 1; }
+    .guarantee-badge .g-txt { font-size: 7px; font-weight: 700; letter-spacing: .05em; }
+    .guarantee-info {}
+    .guarantee-title { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .guarantee-desc { font-size: 12.5px; color: var(--gray); margin-top: 3px; line-height: 1.5; }
+
+    /* FAQ */
+    .faq-section { display: flex; flex-direction: column; gap: 0; }
+    .faq-item { border-bottom: 1px solid #f0f0f0; }
+    .faq-q { width: 100%; background: none; border: none; text-align: left; font-family: inherit; font-size: 14px; font-weight: 500; color: var(--dark); padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq-icon { color: var(--pink); font-size: 18px; flex-shrink: 0; transition: transform .2s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { font-size: 13px; color: var(--gray); line-height: 1.65; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s; }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 14px; }
+
+    /* Trust badges */
+    .trust-badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .trust-badge { background: var(--pink-light); color: var(--pink); font-size: 11px; font-weight: 600; border-radius: 99px; padding: 6px 12px; display: flex; align-items: center; gap: 5px; }
+
+    /* Footer */
+    .mf-footer { text-align: center; padding: 12px 20px 16px; font-size: 10.4px; color: #fff; display: flex; align-items: center; justify-content: center; gap: 4px; opacity: .6; flex-wrap: wrap; }
+    .mf-footer a { color: #fff; text-decoration: none; }
+    .mf-footer a:hover { text-decoration: underline; }
+
+    /* ── Zone img selected glow ── */
+    .opt-item.selected .zone-img { box-shadow: 0 0 0 2.5px var(--pink), 0 2px 10px rgba(232,96,122,.3); }
+
+    /* ── Quiz step counter ── */
+    .quiz-header-row { display: flex; align-items: center; gap: 10px; }
+    .quiz-step-info { flex: 1; display: flex; justify-content: space-between; align-items: center; }
+    .quiz-step-num { font-size: 11.5px; font-weight: 600; color: var(--gray-light); }
+    .quiz-step-pct-text { font-size: 11.5px; font-weight: 700; color: var(--pink); }
+
+    /* ── Diagnostic card ── */
+    .diag-card { background: linear-gradient(135deg, var(--pink-light), #fff); border: 1.5px solid rgba(232,96,122,.2); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .diag-card-head { display: flex; align-items: center; gap: 10px; }
+    .diag-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--pink); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .diag-card-label { font-size: 11px; font-weight: 700; color: var(--pink); letter-spacing: .05em; }
+    .diag-card-title { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .diag-badge { margin-left: auto; background: var(--pink); color: #fff; font-size: 10px; font-weight: 700; border-radius: 99px; padding: 4px 10px; white-space: nowrap; flex-shrink: 0; }
+    .diag-zones { display: flex; flex-wrap: wrap; gap: 6px; }
+    .diag-zone-tag { background: var(--pink); color: #fff; font-size: 11px; font-weight: 700; border-radius: 99px; padding: 4px 10px; }
+    .diag-divider { height: 1px; background: rgba(232,96,122,.15); }
+    .diag-stats { display: flex; justify-content: space-around; text-align: center; }
+    .diag-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .diag-stat-num { font-size: 22px; font-weight: 800; color: var(--pink); line-height: 1; }
+    .diag-stat-label { font-size: 10px; color: var(--gray-light); }
+    .diag-vdiv { width: 1px; background: rgba(232,96,122,.15); }
+
+    /* ── Sticky result CTA ── */
+    .sticky-result-cta { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; padding: 12px 20px 18px; background: rgba(255,255,255,.97); border-top: 1px solid #f0f0f0; box-shadow: 0 -4px 24px rgba(0,0,0,.07); display: none; }
+    .sticky-result-cta.visible { display: block; }
+    .sticky-cta-note { font-size: 11px; color: var(--gray-light); text-align: center; margin-top: 5px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 400px) {
+      .hook-title { font-size: 30px; }
+      .q-title { font-size: 22px; }
+      .countdown-num { font-size: 28px; width: 58px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-frame">
+
+<!-- ═══════════════════════════════════════
+     SCREEN 0 — LANDING
+════════════════════════════════════════ -->
+<div class="screen active landing" id="s0">
+  <div class="hook-card">
+    <div class="chip"><div class="chip-dot"></div> MÉTODO FLORECER</div>
+    <div class="grad-line"></div>
+    <div class="hook-title">Tu cara cambió.<br>Y no fue<br><em>por la edad.</em></div>
+    <div class="hook-sub">Fue por algo que puedes revertir con <strong>10 minutos por día</strong> — sin cremas, sin agujas, desde tu casa.</div>
+    <div class="laura-card">
+      <div class="laura-avatar">🌸</div>
+      <div class="laura-info">
+        <div class="laura-name">Helena Rodriguez</div>
+        <div class="laura-desc">Especialista en yoga facial</div>
+      </div>
+      <div class="laura-badge">+14.400 alumnas</div>
+    </div>
+    <div class="proof-row">
+      <div class="avatars">
+        <div class="mini-avatar">👩</div>
+        <div class="mini-avatar">👩</div>
+        <div class="mini-avatar">👩</div>
+      </div>
+      <div class="proof-text"><strong>+14.400 mujeres</strong><br>ya revirtieron los cambios en su cara</div>
+    </div>
+    <div class="cta-hint">
+      <div class="cta-label">Descubre qué le pasa a tu cara en 60 segundos</div>
+      <div class="cta-arrow">↓</div>
+    </div>
+  </div>
+  <div class="btn-wrap">
+    <button class="btn-pink" onclick="goTo(1)">QUIERO AVERIGUARLO</button>
+  </div>
+  <footer class="mf-footer">
+    <span>© 2026 - Criado via <a href="https://inlead.digital/" target="_blank">inlead.digital</a></span>
+    <span style="font-size:8px;opacity:.7">|</span>
+    <span style="cursor:pointer">Central de anúncios</span>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     QUIZ SHELL (screens 1–16)
+════════════════════════════════════════ -->
+<div class="screen quiz-screen" id="quiz-shell">
+  <div class="quiz-header">
+    <div class="quiz-header-row">
+      <button class="back-btn" onclick="goBack()">← </button>
+      <div class="quiz-step-info">
+        <span class="quiz-step-num" id="quiz-step-num"></span>
+        <span class="quiz-step-pct-text" id="quiz-step-pct-text"></span>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+  <div class="quiz-body" id="quiz-body"></div>
+  <footer class="mf-footer">
+    <span>© 2026 - Criado via <a href="https://inlead.digital/" target="_blank">inlead.digital</a></span>
+    <span style="font-size:8px;opacity:.7">|</span>
+    <span style="cursor:pointer">Central de anúncios</span>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN RESULT
+════════════════════════════════════════ -->
+<div class="screen result-screen" id="s-result">
+  <div style="position:sticky;top:0;z-index:10;background:#fff;padding:10px 20px 0;">
+    <button class="back-btn" onclick="goTo(16)">← </button>
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+  </div>
+  <div class="result-body">
+
+    <div class="result-header">
+      <div class="chip" style="margin:0 auto;"><div class="chip-dot"></div> RESULTADO PERSONALIZADO LISTO</div>
+      <div class="result-title">Tu plan de yoga facial<br><em>está esperándote</em></div>
+      <div class="result-sub">Basado en tus respuestas, Helena armó una rutina <strong>específica para ti</strong>.<br>Disponible solo durante esta oferta.</div>
+    </div>
+
+    <div class="diag-card" id="diag-card">
+      <div class="diag-card-head">
+        <div class="diag-avatar">🌸</div>
+        <div>
+          <div class="diag-card-label">TU DIAGNÓSTICO</div>
+          <div class="diag-card-title">Plan personalizado creado</div>
+        </div>
+        <div class="diag-badge" id="diag-age-badge">35+ años</div>
+      </div>
+      <div class="diag-zones" id="diag-zones"></div>
+      <div class="diag-divider"></div>
+      <div class="diag-stats">
+        <div class="diag-stat">
+          <div class="diag-stat-num">10</div>
+          <div class="diag-stat-label">min/día</div>
+        </div>
+        <div class="diag-vdiv"></div>
+        <div class="diag-stat">
+          <div class="diag-stat-num" id="diag-zones-count">3</div>
+          <div class="diag-stat-label">zonas</div>
+        </div>
+        <div class="diag-vdiv"></div>
+        <div class="diag-stat">
+          <div class="diag-stat-num">4</div>
+          <div class="diag-stat-label">semanas</div>
+        </div>
+        <div class="diag-vdiv"></div>
+        <div class="diag-stat">
+          <div class="diag-stat-num">89%</div>
+          <div class="diag-stat-label">éxito</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">LA DIFERENCIA ES EL MÉTODO</div>
+
+    <div class="compare-box bad">
+      <div class="compare-head">❌ Sin el método correcto</div>
+      <div class="compare-item"><span class="ico">⚠️</span> Cremas que solo hidratan la superficie — la piel sigue sin tono</div>
+      <div class="compare-item"><span class="ico">⚠️</span> Ejercicios sueltos de YouTube sin progresión ni secuencia</div>
+      <div class="compare-item"><span class="ico">⚠️</span> Meses de frustración gastando en lo que no funciona</div>
+    </div>
+
+    <div class="compare-box good">
+      <div class="compare-head">✅ Con el Método Florecer</div>
+      <div class="compare-item"><span class="ico">🌸</span> 57 músculos activados con secuencia progresiva — resultados acumulables</div>
+      <div class="compare-item"><span class="ico">🌸</span> 10 minutos por día desde tu casa — sin productos ni aparatos</div>
+      <div class="compare-item"><span class="ico">🌸</span> Plan personalizado por zona — no una rutina genérica para todas</div>
+    </div>
+
+    <div class="section-label">RESULTADOS REALES DE ALUMNAS</div>
+
+    <div class="ba-carousel" style="position:relative;padding:0 18px;">
+      <div class="ba-slide active" id="ba0">
+        <div class="ba-img-wrap">
+          <div style="position:relative">
+            <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-rQOv0-screenshot-2026-02-26-at-001217.png" alt="Antes" style="width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top">
+            <div class="ba-label">Antes</div>
+          </div>
+          <div style="position:relative">
+            <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-1pkG7-resized-face-centered-3.jpg" alt="Después" style="width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top">
+            <div class="ba-label">Después – 21 Días</div>
+          </div>
+        </div>
+      </div>
+      <div class="ba-slide" id="ba1">
+        <div class="ba-img-wrap">
+          <div style="position:relative">
+            <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-bkKAB-resized-face-centered-4.jpg" alt="Antes" style="width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top">
+            <div class="ba-label">Antes</div>
+          </div>
+          <div style="position:relative">
+            <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-7Z88K-screenshot-2026-02-26-at-000203.png" alt="Después" style="width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top">
+            <div class="ba-label">Después – 30 Días</div>
+          </div>
+        </div>
+      </div>
+      <div class="ba-slide" id="ba2">
+        <img src="download%201.jpg" alt="Antes y Después – 1 mes" style="width:100%;border-radius:12px;display:block">
+      </div>
+      <div class="ba-slide" id="ba3">
+        <img src="download%202.jpg" alt="Antes y Después – 21 días" style="width:100%;border-radius:12px;display:block">
+      </div>
+      <div class="ba-slide" id="ba4">
+        <img src="download%203.jpg" alt="Antes y Después – frente" style="width:100%;border-radius:12px;display:block">
+      </div>
+      <div class="ba-slide" id="ba5">
+        <img src="download%204.jpg" alt="Antes y Después – perfil" style="width:100%;border-radius:12px;display:block">
+      </div>
+      <button class="ba-nav ba-prev" onclick="baNav(-1)">←</button>
+      <button class="ba-nav ba-next" onclick="baNav(1)">→</button>
+    </div>
+    <div class="carousel-dots" style="margin-top:6px;">
+      <div class="dot active" id="bd0"></div>
+      <div class="dot" id="bd1"></div>
+      <div class="dot" id="bd2"></div>
+      <div class="dot" id="bd3"></div>
+      <div class="dot" id="bd4"></div>
+      <div class="dot" id="bd5"></div>
+    </div>
+    <div class="ba-caption" id="ba-caption">21 días de práctica</div>
+
+    <div class="countdown-box">
+      <div class="countdown-label">⏰ ESTA OFERTA ESPECIAL EXPIRA EN EXACTAMENTE:</div>
+      <div class="countdown-timer">
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-h">00</div>
+          <div class="countdown-text">HORAS</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-m">59</div>
+          <div class="countdown-text">MINUTOS</div>
+        </div>
+        <div class="countdown-sep">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-s">59</div>
+          <div class="countdown-text">SEGUNDOS</div>
+        </div>
+      </div>
+      <div class="countdown-bar"><div class="countdown-bar-fill"></div></div>
+      <div class="countdown-note">Cuando el timer llegue a cero, <strong>los precios vuelven a su valor original.</strong></div>
+    </div>
+
+    <div class="dark-review">
+      <div class="review-head">
+        <div class="review-avatar">👩</div>
+        <div class="review-info">
+          <div class="review-name">Marcela R.</div>
+          <div class="review-city">Plan Intermedio</div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+      </div>
+      <div class="review-quote">"Estuve años comprando cremas carísimas y nada. Vi el precio y pensé que era una tontería más. Al mes no podía creer lo que veía en el espejo. <span class="pink">Fue lo único que realmente cambió mi cara. Literalmente.</span> Si estás dudando, no dudes."</div>
+      <div class="verified-badge">✓ Compró el plan Intermedio</div>
+    </div>
+
+    <div class="section-label">ELEGÍ TU PLAN — OFERTA ACTIVA</div>
+
+    <!-- PLAN BÁSICO -->
+    <div class="plan-basic">
+      <div class="plan-badge"><div class="plan-tag">30% OFF</div></div>
+      <div class="plan-name">Básico</div>
+      <div class="plan-duration">📅 Programa de 4 semanas</div>
+      <div class="plan-items-wrap">
+        <div class="plan-items-label">+ QUÉ INCLUYE</div>
+        <div class="plan-item"><div class="plan-item-name">📹 Videos de rutina diaria personalizados por zona facial</div><div class="plan-item-price">$27</div></div>
+        <div class="plan-item"><div class="plan-item-name">📋 Plan de 4 semanas con progresión semana a semana</div><div class="plan-item-price">$19</div></div>
+        <div class="plan-item"><div class="plan-item-name">🔄 Acceso de por vida — pagas una vez, usas siempre</div><div class="plan-item-price">$19</div></div>
+        <div class="plan-total"><span>Valor total</span><span>$65</span></div>
+      </div>
+      <div class="plan-price-label">PRECIO DE HOY</div>
+      <div class="plan-price"><span class="currency">$</span>9.90<span class="cur-suffix">USD</span></div>
+      <button class="plan-btn light-btn">Empezar las 4 semanas →</button>
+      <div class="plan-perday">≈ $0.33/día durante 30 días</div>
+      <div class="plan-timer-note">⏳ A este precio solo mientras el timer esté activo</div>
+    </div>
+
+    <!-- PLAN INTERMEDIO -->
+    <div class="plan-featured">
+      <div class="plan-badge">
+        <div class="plan-best">⭐ MÁS ELEGIDO — MEJOR RELACIÓN VALOR/PRECIO</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div class="plan-name">Intermedio</div>
+        <div class="plan-tag dim">50% OFF</div>
+      </div>
+      <div class="plan-duration">📅 8 semanas + bonos completos</div>
+      <div class="plan-items-wrap">
+        <div class="plan-items-label">+ QUÉ INCLUYE</div>
+        <div class="plan-item"><div class="plan-item-name">📹 Videos de rutina diaria personalizados por zona facial</div><div class="plan-item-price">$27</div></div>
+        <div class="plan-item"><div class="plan-item-name">📋 Plan de 8 semanas — el doble de progresión y resultados</div><div class="plan-item-price">$37</div></div>
+        <div class="plan-item"><div class="plan-item-name">🥘 3 recetarios para reducción de grasa facial</div><div class="plan-item-price">$27</div></div>
+        <div class="plan-item"><div class="plan-item-name">✨ Guía completa de nutrición facial y skin care</div><div class="plan-item-price">$19</div></div>
+        <div class="plan-item"><div class="plan-item-name">🔄 Acceso de por vida al contenido</div><div class="plan-item-price">$15</div></div>
+        <div class="plan-total"><span>Valor total</span><span>$125</span></div>
+      </div>
+      <div class="plan-price-label" style="color:var(--pink-btn)">PRECIO DE HOY</div>
+      <div class="plan-price"><span class="currency">$</span>9.90<span class="cur-suffix">USD</span></div>
+      <button class="plan-btn featured-btn">¡Quiero resultados completos! →</button>
+      <div class="plan-perday">≈ $0.17/día durante 60 días</div>
+      <div class="plan-timer-note">⏳ 50% OFF solo mientras el timer esté activo</div>
+    </div>
+
+    <!-- PLAN FULL -->
+    <div class="plan-full">
+      <div class="plan-badge"><div class="plan-tag" style="background:var(--dark)">70% OFF</div></div>
+      <div class="plan-name">Full</div>
+      <div class="plan-duration">📅 12 semanas — Acceso total y vitalicio</div>
+      <div class="plan-items-wrap">
+        <div class="plan-items-label">+ QUÉ INCLUYE</div>
+        <div class="plan-item"><div class="plan-item-name">📹 Videos de rutina diaria personalizados por zona facial</div><div class="plan-item-price">$27</div></div>
+        <div class="plan-item"><div class="plan-item-name">📋 Plan de 12 semanas con progresión avanzada completa</div><div class="plan-item-price">$47</div></div>
+        <div class="plan-item"><div class="plan-item-name">🥘 3 recetarios para reducción de grasa facial</div><div class="plan-item-price">$27</div></div>
+        <div class="plan-item"><div class="plan-item-name">✨ Guía completa de nutrición facial y skin care</div><div class="plan-item-price">$19</div></div>
+        <div class="plan-item"><div class="plan-item-name">🗝️ Acceso total a <strong>todo</strong> el contenido de Helena Rodriguez</div><div class="plan-item-price">$67</div></div>
+        <div class="plan-item"><div class="plan-item-name">🔄 Todas las actualizaciones futuras — sin pagar nunca más</div><div class="plan-item-price">$77</div></div>
+        <div class="plan-total"><span>Valor total</span><span>$264</span></div>
+      </div>
+      <div class="plan-info"><span>💡</span><span>Si sabes que vas a continuar, <span class="pink">el Full cuesta menos que volver a comprar después.</span> Pagas una vez y nunca más.</span></div>
+      <div class="plan-price-label">PRECIO DE HOY</div>
+      <div class="plan-price"><span class="currency">$</span>9.90<span class="cur-suffix">USD</span></div>
+      <button class="plan-btn light-btn">Quiero el acceso total →</button>
+      <div class="plan-perday">≈ $0.08/día durante 120 días</div>
+      <div class="plan-timer-note">⏳ 70% OFF solo con el timer activo</div>
+    </div>
+
+    <!-- GUARANTEE -->
+    <div class="guarantee">
+      <div class="guarantee-badge"><div class="g-num">30</div><div class="g-txt">DÍAS</div></div>
+      <div class="guarantee-info">
+        <div class="guarantee-title">Garantía de devolución total</div>
+        <div class="guarantee-desc">Si en 30 días no ves resultados o no estás conforme, te devolvemos el 100% de tu dinero. Sin preguntas.</div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section-label">PREGUNTAS FRECUENTES</div>
+    <div class="faq-section" id="faq">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>¿Qué incluye exactamente el programa?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">El Método Florecer incluye videos de rutina diaria organizados por zona facial (papada, mandíbula, pómulos, párpados, cuello) y PDFs con tu plan personalizado semana a semana. El plan Intermedio suma 3 recetarios de reducción de grasa y una guía completa de nutrición facial y skin care. El plan Full incluye todo lo anterior más acceso total a todo el contenido existente y futuro de Helena Rodriguez, de por vida.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>¿En cuánto tiempo voy a ver resultados?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">El 89% de nuestras alumnas nota cambios visibles antes de completar las primeras 4 semanas. Con 10 minutos diarios el músculo empieza a responder desde la primera semana.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>¿Funciona para cualquier edad?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Sí. Los músculos faciales responden al estímulo correcto a cualquier edad. Tenemos alumnas de 35 a 70 años con resultados visibles. Nunca es tarde.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>¿Necesito productos, cremas o equipamiento?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">No. Solo tus manos, 10 minutos y el método. Desde tu casa, cuando quieras.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>¿En qué se diferencia del yoga facial de YouTube?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Los ejercicios sueltos de YouTube no tienen progresión ni secuencia. El Método Florecer es un sistema estructurado semana a semana donde cada ejercicio prepara el músculo para el siguiente. Esa diferencia es la que produce resultados acumulables y visibles.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>Ya probé muchas cosas y ninguna me funcionó.</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Lo que probaste antes probablemente actuó sobre la piel — cremas, hidratantes, tratamientos superficiales. El Método Florecer trabaja el músculo, que es lo que sostiene y da forma al rostro. No fue tu culpa que no funcionara. Fue el método que usaste.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>¿Cuándo y cómo accedo después de comprar?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">El acceso es inmediato. Al confirmar tu pago recibes un email con tu usuario y contraseña. Puedes acceder desde cualquier dispositivo, cuando quieras.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span>¿Qué pasa si no es para mí?</span><span class="faq-icon">+</span></button>
+        <div class="faq-a">Tienes 30 días de garantía total. Si por cualquier motivo no estás satisfecha, te devolvemos el 100% de tu inversión. Sin complicaciones.</div>
+      </div>
+    </div>
+
+    <!-- TRUST BADGES -->
+    <div class="trust-badges">
+      <div class="trust-badge">🔒 Pago seguro</div>
+      <div class="trust-badge">💵 Precio en USD</div>
+      <div class="trust-badge">⚡ Acceso inmediato</div>
+      <div class="trust-badge">🛡️ Garantía 30 días</div>
+    </div>
+
+  </div>
+  <footer class="mf-footer">
+    <span>© 2026 - Criado via <a href="https://inlead.digital/" target="_blank">inlead.digital</a></span>
+    <span style="font-size:8px;opacity:.7">|</span>
+    <span style="cursor:pointer">Central de anúncios</span>
+  </footer>
+</div>
+
+</div><!-- end page-frame -->
+
+<div class="sticky-result-cta" id="sticky-result-cta">
+  <button class="plan-btn featured-btn" onclick="document.querySelector('.plan-featured .plan-btn').scrollIntoView({behavior:'smooth',block:'center'})">¡Quiero resultados completos! →</button>
+  <div class="sticky-cta-note"><span>⏳ 50% OFF activo</span><span style="opacity:.4">·</span><span>⭐ Más elegido</span><span style="opacity:.4">·</span><span>🛡️ Garantía 30 días</span></div>
+</div>
+
+<script>
+// ── STATE ──
+let currentStep = 0;
+const answers = {};
+const QUIZ_STEPS = 9;
+const QUIZ_PROGRESS_STEPS = 9; // questions only (info slides don't count)
+
+// Which steps are "question" steps (advance progress) — 17 entries, index 0-16
+const isQuestion = [false, true, true, true, false, true, true, true, true, false, true, true, false, false, false, false, true];
+
+function getProgressPct(step) {
+  let count = 0;
+  for (let i = 1; i <= step; i++) if (isQuestion[i]) count++;
+  return Math.round((count / QUIZ_PROGRESS_STEPS) * 100);
+}
+
+function getQuestionNum(step) {
+  let count = 0;
+  for (let i = 1; i <= step; i++) if (isQuestion[i]) count++;
+  return count;
+}
+
+function populateDiagCard() {
+  const zoneLabels = { frente: 'Frente', ojos: 'Ojos', mejillas: 'Mejillas', boca: 'Boca', menton: 'Papada', mandibula: 'Mandíbula', cuello: 'Cuello' };
+  const zonas = answers['zonas'] || [];
+  const edad = answers['edad'] || '';
+
+  const ageBadge = document.getElementById('diag-age-badge');
+  if (ageBadge && edad) ageBadge.textContent = edad + ' años';
+
+  const zonesEl = document.getElementById('diag-zones');
+  if (zonesEl && zonas.length > 0) {
+    zonesEl.innerHTML = zonas.map(z => `<span class="diag-zone-tag">${zoneLabels[z] || z}</span>`).join('');
+  }
+
+  const countEl = document.getElementById('diag-zones-count');
+  if (countEl) countEl.textContent = zonas.length || 3;
+}
+
+function goTo(step) {
+  // Hide all screens
+  document.getElementById('s0').classList.remove('active');
+  document.getElementById('quiz-shell').classList.remove('active');
+  document.getElementById('s-result').classList.remove('active');
+
+  currentStep = step;
+
+  if (step === 0) {
+    document.getElementById('s0').classList.add('active');
+  } else if (step === 17) {
+    document.getElementById('s-result').classList.add('active');
+    document.getElementById('s-result').scrollTop = 0;
+    startCountdown();
+    populateDiagCard();
+    setupStickyCtaScroll();
+  } else {
+    document.getElementById('quiz-shell').classList.add('active');
+    document.getElementById('quiz-shell').scrollTop = 0;
+    renderStep(step);
+    document.getElementById('progress-fill').style.width = getProgressPct(step) + '%';
+    // Update step counter
+    const stepNumEl = document.getElementById('quiz-step-num');
+    const stepPctEl = document.getElementById('quiz-step-pct-text');
+    if (stepNumEl && stepPctEl) {
+      if (isQuestion[step]) {
+        const qNum = getQuestionNum(step);
+        stepNumEl.textContent = 'Pregunta ' + qNum + ' de ' + QUIZ_PROGRESS_STEPS;
+        stepPctEl.textContent = getProgressPct(step) + '%';
+      } else {
+        stepNumEl.textContent = '';
+        stepPctEl.textContent = '';
+      }
+    }
+    // Loading screen auto-advance hooks
+    if (step === 12) setTimeout(() => startLoadingScreen('ls12', 3000, 13), 300);
+    if (step === 13) setTimeout(() => startLoadingScreen('ls13', 3000, 14), 300);
+    if (step === 14) setTimeout(() => startPlanBuilding(), 300);
+  }
+}
+
+function goBack() {
+  if (currentStep <= 1) goTo(0);
+  else goTo(currentStep - 1);
+}
+
+// ── STEP RENDERER ──
+function renderStep(step) {
+  const body = document.getElementById('quiz-body');
+  body.innerHTML = steps[step]();
+}
+
+// ── OPTION HELPERS ──
+function radioOpt(key, value, icon, name, desc) {
+  desc = desc || '';
+  const sel = (answers[key] === value) ? 'selected' : '';
+  return `<button class="opt-item ${sel}" onclick="selectRadio('${key}','${value}',this)">
+    <div class="opt-icon">${icon}</div>
+    <div class="opt-text">
+      <div class="opt-name">${name}</div>
+      ${desc ? `<div class="opt-desc">${desc}</div>` : ''}
+    </div>
+    <div class="opt-radio"></div>
+  </button>`;
+}
+
+function checkOpt(key, value, icon, name, desc) {
+  desc = desc || '';
+  const arr = answers[key] || [];
+  const sel = arr.includes(value) ? 'selected' : '';
+  return `<button class="opt-item ${sel}" onclick="toggleCheck('${key}','${value}',this)">
+    <div class="opt-icon">${icon}</div>
+    <div class="opt-text">
+      <div class="opt-name">${name}</div>
+      ${desc ? `<div class="opt-desc">${desc}</div>` : ''}
+    </div>
+    <div class="opt-check"></div>
+  </button>`;
+}
+
+function checkGrid(key, value, icon, name) {
+  const arr = answers[key] || [];
+  const sel = arr.includes(value) ? 'selected' : '';
+  return `<button class="opt-grid-item ${sel}" onclick="toggleCheck('${key}','${value}',this)">
+    <div class="opt-icon">${icon}</div>
+    <div class="opt-name">${name}</div>
+    <div class="opt-check"></div>
+  </button>`;
+}
+
+function simpleOpt(key, value, label) {
+  const sel = (answers[key] === value) ? 'selected' : '';
+  return `<button class="opt-simple ${sel}" onclick="selectSimple('${key}','${value}',this)">${label}</button>`;
+}
+
+// ── Zone SVG helpers ──
+function zoneSvg(zone) {
+  // Each highlight: fill + dashed stroke border for medical-diagram feel
+  const hl = {
+    frente:
+      `<path d='M9 39 Q10 10 40 9 Q70 10 71 39 Q62 18 40 17 Q18 18 9 39Z' fill='rgba(232,96,122,0.38)'/>` +
+      `<path d='M10 37 Q11 9 40 8 Q69 9 70 37' fill='none' stroke='rgba(232,96,122,0.72)' stroke-width='1.8' stroke-dasharray='4,3' stroke-linecap='round'/>`,
+    ojos:
+      `<ellipse cx='26' cy='42' rx='12' ry='8' fill='rgba(232,96,122,0.38)'/>` +
+      `<ellipse cx='54' cy='42' rx='12' ry='8' fill='rgba(232,96,122,0.38)'/>` +
+      `<ellipse cx='26' cy='42' rx='12' ry='8' fill='none' stroke='rgba(232,96,122,0.7)' stroke-width='1.5' stroke-dasharray='3,2.5'/>` +
+      `<ellipse cx='54' cy='42' rx='12' ry='8' fill='none' stroke='rgba(232,96,122,0.7)' stroke-width='1.5' stroke-dasharray='3,2.5'/>`,
+    mejillas:
+      `<ellipse cx='8' cy='56' rx='10' ry='10' fill='rgba(232,96,122,0.36)'/>` +
+      `<ellipse cx='72' cy='56' rx='10' ry='10' fill='rgba(232,96,122,0.36)'/>` +
+      `<ellipse cx='8' cy='56' rx='10' ry='10' fill='none' stroke='rgba(232,96,122,0.66)' stroke-width='1.5' stroke-dasharray='3,2.5'/>` +
+      `<ellipse cx='72' cy='56' rx='10' ry='10' fill='none' stroke='rgba(232,96,122,0.66)' stroke-width='1.5' stroke-dasharray='3,2.5'/>`,
+    boca:
+      `<ellipse cx='40' cy='72' rx='16' ry='9' fill='rgba(232,96,122,0.4)'/>` +
+      `<ellipse cx='40' cy='72' rx='16' ry='9' fill='none' stroke='rgba(232,96,122,0.72)' stroke-width='1.5' stroke-dasharray='3,2.5'/>`,
+    menton:
+      `<ellipse cx='40' cy='82' rx='20' ry='15' fill='rgba(232,96,122,0.38)'/>` +
+      `<ellipse cx='40' cy='82' rx='20' ry='15' fill='none' stroke='rgba(232,96,122,0.68)' stroke-width='1.5' stroke-dasharray='3,2.5'/>`,
+    mandibula:
+      `<ellipse cx='9' cy='70' rx='10' ry='18' fill='rgba(232,96,122,0.34)'/>` +
+      `<ellipse cx='71' cy='70' rx='10' ry='18' fill='rgba(232,96,122,0.34)'/>` +
+      `<ellipse cx='9' cy='70' rx='10' ry='18' fill='none' stroke='rgba(232,96,122,0.64)' stroke-width='1.5' stroke-dasharray='3,2.5'/>` +
+      `<ellipse cx='71' cy='70' rx='10' ry='18' fill='none' stroke='rgba(232,96,122,0.64)' stroke-width='1.5' stroke-dasharray='3,2.5'/>`,
+    cuello:
+      `<rect x='27' y='92' width='26' height='20' rx='6' fill='rgba(232,96,122,0.44)'/>` +
+      `<rect x='27' y='92' width='26' height='20' rx='6' fill='none' stroke='rgba(232,96,122,0.72)' stroke-width='1.5' stroke-dasharray='3,2.5'/>`,
+  };
+  const h = hl[zone] || '';
+
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 116'>
+    <defs>
+      <radialGradient id='fG' cx='44%' cy='30%' r='68%'>
+        <stop offset='0%' stop-color='#FEF2EE'/>
+        <stop offset='100%' stop-color='#F2D0CA'/>
+      </radialGradient>
+      <radialGradient id='hG' cx='50%' cy='22%' r='65%'>
+        <stop offset='0%' stop-color='#CCAEAA'/>
+        <stop offset='100%' stop-color='#8C6868'/>
+      </radialGradient>
+      <radialGradient id='irL' cx='40%' cy='35%' r='65%'>
+        <stop offset='0%' stop-color='#9C7878'/>
+        <stop offset='100%' stop-color='#5C4040'/>
+      </radialGradient>
+    </defs>
+    <!-- ground shadow -->
+    <ellipse cx='40' cy='112' rx='20' ry='3' fill='rgba(0,0,0,0.06)'/>
+    <!-- neck -->
+    <rect x='28' y='90' width='24' height='20' rx='6' fill='url(#fG)' stroke='#DCC0BC' stroke-width='1.2'/>
+    <line x1='36' y1='90' x2='36' y2='109' stroke='#DCC0BC' stroke-width='0.9'/>
+    <line x1='44' y1='90' x2='44' y2='109' stroke='#DCC0BC' stroke-width='0.9'/>
+    <!-- ears -->
+    <ellipse cx='6' cy='58' rx='5.5' ry='9.5' fill='url(#fG)' stroke='#DCC0BC' stroke-width='1.2'/>
+    <ellipse cx='74' cy='58' rx='5.5' ry='9.5' fill='url(#fG)' stroke='#DCC0BC' stroke-width='1.2'/>
+    <path d='M6.5 50 Q4 58 6.5 66' fill='none' stroke='#CAAAAA' stroke-width='1.1' stroke-linecap='round'/>
+    <path d='M73.5 50 Q76 58 73.5 66' fill='none' stroke='#CAAAAA' stroke-width='1.1' stroke-linecap='round'/>
+    <!-- face -->
+    <ellipse cx='40' cy='56' rx='35' ry='46' fill='url(#fG)' stroke='#DCC0BC' stroke-width='1.5'/>
+    <!-- hair mass -->
+    <path d='M6 43 Q7 8 40 7 Q73 8 74 43 Q65 18 40 17 Q15 18 6 43Z' fill='url(#hG)'/>
+    <!-- hair sheen -->
+    <path d='M22 17 Q38 10 56 18' fill='none' stroke='rgba(255,255,255,0.2)' stroke-width='3' stroke-linecap='round'/>
+    <!-- eyebrows -->
+    <path d='M20 38 Q27 32.5 34 36' fill='none' stroke='#8C6060' stroke-width='2.4' stroke-linecap='round'/>
+    <path d='M46 36 Q53 32.5 60 38' fill='none' stroke='#8C6060' stroke-width='2.4' stroke-linecap='round'/>
+    <!-- eye whites -->
+    <ellipse cx='26' cy='45' rx='8' ry='5' fill='white' stroke='#D0AAAA' stroke-width='1.1'/>
+    <ellipse cx='54' cy='45' rx='8' ry='5' fill='white' stroke='#D0AAAA' stroke-width='1.1'/>
+    <!-- iris gradient -->
+    <circle cx='26' cy='45' r='3.6' fill='url(#irL)'/>
+    <circle cx='54' cy='45' r='3.6' fill='url(#irL)'/>
+    <!-- pupil -->
+    <circle cx='26' cy='45' r='1.8' fill='#1C1018'/>
+    <circle cx='54' cy='45' r='1.8' fill='#1C1018'/>
+    <!-- eye shine -->
+    <circle cx='27.8' cy='43.2' r='1.4' fill='white'/>
+    <circle cx='55.8' cy='43.2' r='1.4' fill='white'/>
+    <!-- upper lashes arc -->
+    <path d='M18.5 42 Q26 38.5 33.5 42' fill='none' stroke='#8C6060' stroke-width='1.2' stroke-linecap='round'/>
+    <path d='M46.5 42 Q54 38.5 61.5 42' fill='none' stroke='#8C6060' stroke-width='1.2' stroke-linecap='round'/>
+    <!-- nose bridge -->
+    <path d='M39 51 L37 60 Q40 63 43 60 L41 51' fill='#EDD0CC' stroke='#CCA8A4' stroke-width='1.1' stroke-linejoin='round'/>
+    <!-- nostrils -->
+    <ellipse cx='35' cy='62.5' rx='3.8' ry='2.4' fill='#EDD0CC' stroke='#CCA8A4' stroke-width='1'/>
+    <ellipse cx='45' cy='62.5' rx='3.8' ry='2.4' fill='#EDD0CC' stroke='#CCA8A4' stroke-width='1'/>
+    <!-- cupid bow -->
+    <path d='M27 72 Q33 67 40 69 Q47 67 53 72' fill='none' stroke='#B88888' stroke-width='1.5' stroke-linecap='round'/>
+    <!-- lower lip arc -->
+    <path d='M27 72 Q40 80 53 72' fill='none' stroke='#B88888' stroke-width='1.5' stroke-linecap='round'/>
+    <!-- lip fill -->
+    <path d='M28 72 Q34 68 40 70 Q46 68 52 72 Q46 79 40 79.5 Q34 79 28 72Z' fill='rgba(205,120,130,0.45)'/>
+    <!-- cheek blush -->
+    <ellipse cx='15' cy='60' rx='10' ry='7.5' fill='rgba(240,155,150,0.13)'/>
+    <ellipse cx='65' cy='60' rx='10' ry='7.5' fill='rgba(240,155,150,0.13)'/>
+    <!-- zone highlight -->
+    ${h}
+  </svg>`;
+  return 'data:image/svg+xml,' + encodeURIComponent(svg);
+}
+
+function checkZone(key, value, name) {
+  const arr = answers[key] || [];
+  const sel = arr.includes(value) ? 'selected' : '';
+  return `<button class="opt-item ${sel}" onclick="toggleCheck('${key}','${value}',this)">
+    <img src="${zoneSvg(value)}" style="width:64px;height:64px;border-radius:13px;flex-shrink:0;background:var(--pink-light);transition:box-shadow .15s" class="zone-img">
+    <div class="opt-text"><div class="opt-name">${name}</div></div>
+    <div class="opt-check"></div>
+  </button>`;
+}
+
+// ── Loading feature helper ──
+function loadFeature(icon, name, desc) {
+  return `<div style="display:flex;align-items:center;gap:12px;background:var(--pink-light);border-radius:12px;padding:12px">
+    <div style="width:38px;height:38px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${icon}</div>
+    <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--dark)">${name}</div><div style="font-size:11px;color:var(--gray-light)">${desc}</div></div>
+    <div style="width:22px;height:22px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:12px;font-weight:700">✓</div>
+  </div>`;
+}
+
+// ── WhatsApp mock helper ──
+function waMock(name, msg, bubbleBg, bubbleColor) {
+  return `<div style="background:#1a1a2e;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:10px">
+    <div style="color:rgba(255,255,255,0.5);font-weight:600">${name}</div>
+    <div style="background:${bubbleBg};border-radius:8px;padding:8px;color:rgba(255,255,255,0.85);line-height:1.4">${msg}</div>
+  </div>`;
+}
+
+// ── INTERACTION ──
+function selectRadio(key, value, el) {
+  answers[key] = value;
+  el.closest('.opt-list, .quiz-body').querySelectorAll('.opt-item').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  const next = currentStep + 1;
+  setTimeout(() => {
+    if (currentStep >= 16) goTo(17);
+    else goTo(next);
+  }, 320);
+}
+
+function selectSimple(key, value, el) {
+  answers[key] = value;
+  el.closest('.quiz-body').querySelectorAll('.opt-simple').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  setTimeout(() => goTo(currentStep + 1), 320);
+}
+
+function toggleCheck(key, value, el) {
+  if (!answers[key]) answers[key] = [];
+  const idx = answers[key].indexOf(value);
+  if (idx > -1) { answers[key].splice(idx, 1); el.classList.remove('selected'); }
+  else { answers[key].push(value); el.classList.add('selected'); }
+  updateContinueBtn();
+}
+
+function updateContinueBtn() {
+  const btn = document.getElementById('continue-btn');
+  if (!btn) return;
+  const key = btn.dataset.key;
+  const arr = answers[key] || [];
+  if (arr.length > 0) btn.classList.add('enabled');
+  else btn.classList.remove('enabled');
+}
+
+function continueStep(next) { goTo(next); }
+
+function setupStickyCtaScroll() {
+  const resultScreen = document.getElementById('s-result');
+  const stickyCta = document.getElementById('sticky-result-cta');
+  if (!resultScreen || !stickyCta) return;
+  stickyCta.classList.remove('visible');
+  resultScreen.addEventListener('scroll', function onScroll() {
+    const scrolled = resultScreen.scrollTop;
+    const featuredPlan = resultScreen.querySelector('.plan-featured');
+    if (!featuredPlan) return;
+    const planTop = featuredPlan.offsetTop - resultScreen.offsetHeight;
+    if (scrolled > 200 && scrolled < planTop) {
+      stickyCta.classList.add('visible');
+    } else {
+      stickyCta.classList.remove('visible');
+    }
+  }, { passive: true });
+}
+
+// ── LOADING SCREEN AUTO-ADVANCE ──
+function startLoadingScreen(id, duration, nextStep) {
+  const bar = document.getElementById(id + '-bar');
+  const pct = document.getElementById(id + '-pct');
+  if (!bar || !pct) return;
+  let width = 0;
+  const interval = setInterval(() => {
+    width += 100 / (duration / 50);
+    if (width >= 100) {
+      width = 100;
+      clearInterval(interval);
+      setTimeout(() => goTo(nextStep), 400);
+    }
+    bar.style.width = width + '%';
+    pct.textContent = Math.round(width) + '%';
+  }, 50);
+}
+
+function startPlanBuilding() {
+  function animBar(barId, pctId, target, delay, onDone) {
+    setTimeout(() => {
+      const bar = document.getElementById(barId);
+      const pct = document.getElementById(pctId);
+      if (!bar) return;
+      let w = 0;
+      const iv = setInterval(() => {
+        w += target / 40;
+        if (w >= target) { w = target; clearInterval(iv); if(onDone) onDone(); }
+        bar.style.width = w + '%';
+        if(pct) pct.textContent = Math.round(w) + '%';
+      }, 40);
+    }, delay);
+  }
+  animBar('pb1','pb1-pct',100, 200, () => {
+    animBar('pb2','pb2-pct',100, 300, () => {
+      animBar('pb3','pb3-pct',100, 300, () => {
+        startLoadingScreen('ls14', 2000, 15);
+      });
+    });
+  });
+}
+
+// ── STEP DEFINITIONS ──
+const steps = {
+  // ── S1: AGE (photo grid) ──
+  1: () => `
+    <div style="display:flex;flex-direction:column;gap:6px;text-align:center">
+      <div style="font-size:15px;font-weight:700;color:var(--dark)">Creemos tu <em style="color:var(--pink);font-style:italic">Método Florecer</em><br>personalizado para ti</div>
+      <div class="q-sub">Selecciona tu <strong style="color:var(--dark)">EDAD</strong></div>
+    </div>
+    <div class="photo-grid">
+      <button class="photo-opt" onclick="selectRadio('edad','30-39',this)">
+        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-rQOv0-screenshot-2026-02-26-at-001217.png" alt="30-39">
+        <div class="photo-label">Edad: 30-39</div>
+      </button>
+      <button class="photo-opt" onclick="selectRadio('edad','40-49',this)">
+        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-1pkG7-resized-face-centered-3.jpg" alt="40-49">
+        <div class="photo-label">Edad: 40-49</div>
+      </button>
+      <button class="photo-opt" onclick="selectRadio('edad','50-59',this)">
+        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-bkKAB-resized-face-centered-4.jpg" alt="50-59">
+        <div class="photo-label">Edad: 50-59</div>
+      </button>
+      <button class="photo-opt" onclick="selectRadio('edad','+60',this)">
+        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-7Z88K-screenshot-2026-02-26-at-000203.png" alt="+60">
+        <div class="photo-label">Edad: +60</div>
+      </button>
+    </div>
+    <div class="info-box light">
+      <div class="info-icon">⚠️</div>
+      <div class="info-text">A partir de los 35, los músculos faciales pierden tono. Con el método correcto, se puede revertir <strong>EN CUALQUIER MOMENTO.</strong></div>
+    </div>`,
+
+  // ── S2: WHAT BOTHERS (multi-check) ──
+  2: () => `
+    <div class="q-badge">🌸 TU DIAGNÓSTICO</div>
+    <div class="q-title">¿Qué es lo que más te molesta de tu <em>cara hoy?</em></div>
+    <div class="q-sub">— Podés elegir más de una opción</div>
+    <div class="opt-list">
+      ${checkOpt('molesta','papada','🫣','La papada que no desaparece')}
+      ${checkOpt('molesta','definicion','😔','Que mi cara perdió definición y se ve caída')}
+      ${checkOpt('molesta','parpados','👁','Mis párpados caídos que me hacen ver cansada')}
+      ${checkOpt('molesta','mejillas','🌸','Mis mejillas que perdieron volumen y firmeza')}
+      ${checkOpt('molesta','cuello','🦢','Las líneas y flacidez en el cuello')}
+    </div>
+    <div class="need-select">Selecciona al menos una opción</div>
+    <button class="btn-continue ${(answers['molesta']||[]).length>0?'enabled':''}" id="continue-btn" data-key="molesta" onclick="continueStep(3)">Continuar</button>`,
+
+  // ── S3: TRIED (multi-check) ──
+  3: () => `
+    <div class="q-title">¿Ya probaste hacer algo para <em>mejorar tu cara?</em></div>
+    <div class="q-sub">Podés elegir más de una opción</div>
+    <div class="opt-list">
+      ${checkOpt('probaste','nada','😈','Nunca probé nada todavía')}
+      ${checkOpt('probaste','youtube','😬','Vi videos en YouTube pero no fui constante')}
+      ${checkOpt('probaste','cremas','😟','Usé cremas o productos pero no vi resultados reales')}
+      ${checkOpt('probaste','estetico','🤔','Hice algún tratamiento estético o lo estoy considerando')}
+    </div>
+    <div class="info-box dark">
+      <div class="info-icon">✨</div>
+      <div class="info-text">El <strong>78% de las mujeres</strong> que no ven resultados no tienen un <strong>problema de constancia</strong> — tienen un <strong>problema de método.</strong></div>
+    </div>
+    <button class="btn-continue ${(answers['probaste']||[]).length>0?'enabled':''}" id="continue-btn" data-key="probaste" onclick="continueStep(4)">Continuar</button>`,
+
+  // ── S4: INFO YOGA FACIAL ──
+  4: () => `
+    <div class="info-hero">
+      <div class="info-emoji-circle">🧘‍♀️</div>
+      <div class="info-title">A todo esto, ¿qué es el <em>yoga facial?</em></div>
+      <div class="info-desc">Es una forma sencilla y natural de mantener tu cara firme, tonificada y descansada sin procedimientos ni productos caros.</div>
+    </div>
+    <div class="info-label">¿CÓMO FUNCIONA?</div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon">💪</div>
+        <div class="feature-text">
+          <div class="feature-name">Tonifica los músculos del rostro</div>
+          <div class="feature-desc">Ejercicios específicos para los 57 músculos de tu cara y cuello</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✨</div>
+        <div class="feature-text">
+          <div class="feature-name">Devuelve luminosidad a tu piel</div>
+          <div class="feature-desc">Mejora la circulación y le devuelve luminosidad a tu piel</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🧘</div>
+        <div class="feature-text">
+          <div class="feature-name">Relaja la tensión acumulada</div>
+          <div class="feature-desc">Se nota especialmente en la mandíbula y la frente</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-info" onclick="continueStep(5)">¡Sigamos!</button>`,
+
+  // ── S5: MIRROR FEELING (single) ──
+  5: () => `
+    <div class="info-hero" style="gap:10px">
+      <div class="info-emoji-circle">💎</div>
+    </div>
+    <div class="q-title">¿Cómo te sentís cuando te mirás al <em>espejo últimamente?</em></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${simpleOpt('espejo','bien','Bien, me gusto como estoy')}
+      ${simpleOpt('espejo','cambios','Noto cambios que no me gustan pero lo manejo')}
+      ${simpleOpt('espejo','cuesta','Me cuesta reconocerme y eso me pesa')}
+      ${simpleOpt('espejo','evito','Evito mirarme demasiado')}
+    </div>
+    <div class="q-hint">La mayoría de las mujeres que llegan acá eligieron las últimas dos opciones.<br><em>No estás sola.</em> Y tiene solución.</div>`,
+
+  // ── S6: HOW LONG (single) ──
+  6: () => `
+    <div class="q-title">¿Hace cuánto tiempo notas estos <em>cambios</em> en tu cara?</div>
+    <div class="opt-list">
+      ${radioOpt('tiempo','meses','⏰','Hace pocos meses','Recién empecé a notarlo')}
+      ${radioOpt('tiempo','1-2años','📅','Hace 1 o 2 años','Fue gradual pero ya está instalado')}
+      ${radioOpt('tiempo','+3años','📅','Hace más de 3 años','Ya me fui acostumbrando a verlo')}
+      ${radioOpt('tiempo','siempre','😔','No recuerdo verme diferente','Siempre sentí que algo no estaba bien')}
+    </div>
+    <div class="q-hint">💡 Sin importar cuánto tiempo lleve, <strong>los músculos faciales responden al estímulo correcto a cualquier edad.</strong> Nunca es tarde.</div>`,
+
+  // ── S7: GOALS GRID (multi-check 2-col) ──
+  7: () => `
+    <div class="q-title">¿Con qué te querés ver <em>diferente</em> en 4 semanas?</div>
+    <div class="q-sub">Podés elegir más de una</div>
+    <div class="opt-grid2">
+      ${checkGrid('metas','papada','🚩','Reducir la papada')}
+      ${checkGrid('metas','mandibula','🔥','Definir mi mandíbula')}
+      ${checkGrid('metas','parpados','👁','Levantar mis párpados')}
+      ${checkGrid('metas','mejillas','🌸','Tonificar mis mejillas')}
+      ${checkGrid('metas','cuello','🦢','Afirmar mi cuello')}
+      ${checkGrid('metas','cara','🧍','Desinflamar mi cara')}
+      ${checkGrid('metas','fotos','📸','Verme menos cansada en las fotos')}
+      ${checkGrid('metas','piel','✨','Tener la piel más luminosa')}
+    </div>
+    <div class="need-select">Selecciona al menos una opción</div>
+    <button class="btn-continue ${(answers['metas']||[]).length>0?'enabled':''}" id="continue-btn" data-key="metas" onclick="continueStep(8)">Continuar</button>`,
+
+  // ── S8: ZONES (multi-check with SVG face images) ──
+  8: () => `
+    <div class="q-title">¿Qué zonas de tu cara querés mejorar?</div>
+    <div class="q-sub">"Podés elegir más de una"</div>
+    <div class="opt-list">
+      ${checkZone('zonas','frente','Frente')}
+      ${checkZone('zonas','ojos','Ojos y párpados')}
+      ${checkZone('zonas','mejillas','Mejillas')}
+      ${checkZone('zonas','boca','Boca')}
+      ${checkZone('zonas','menton','Mentón y papada')}
+      ${checkZone('zonas','mandibula','Mandíbula')}
+      ${checkZone('zonas','cuello','Cuello')}
+    </div>
+    <button class="btn-continue ${(answers['zonas']||[]).length>0?'enabled':''}" id="continue-btn" data-key="zonas" onclick="continueStep(9)">Continuar</button>`,
+
+  // ── S9: INFO CHART (animated) ──
+  9: () => `
+    <div class="q-title">¿Por qué los ejercicios sueltos no te dieron resultados?</div>
+    <div class="q-sub">Resultados en tu rostro a lo largo del tiempo</div>
+    <div class="chart-box">
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-line pink"></div> Método Florecer</div>
+        <div class="legend-item"><div class="legend-line gray" style="border-top:2px dashed #ccc;width:20px;height:0"></div> Sin método</div>
+      </div>
+      <svg viewBox="0 0 300 140" style="width:100%;height:140px">
+        <!-- Y axis labels -->
+        <text x="0" y="20" font-size="9" fill="#bbb">Alto</text>
+        <text x="0" y="72" font-size="9" fill="#bbb">Medio</text>
+        <text x="0" y="118" font-size="9" fill="#bbb">Bajo</text>
+        <!-- X axis labels -->
+        <text x="38" y="135" font-size="9" fill="#bbb">Hoy</text>
+        <text x="118" y="135" font-size="9" fill="#bbb">Semana 1</text>
+        <text x="198" y="135" font-size="9" fill="#bbb">Semana 2</text>
+        <text x="268" y="135" font-size="9" fill="#bbb">Semana 4</text>
+        <!-- Gray flat line (sin método) -->
+        <line x1="40" y1="110" x2="285" y2="110" stroke="#ccc" stroke-width="2" stroke-dasharray="5,4"/>
+        <circle cx="40" cy="110" r="4" fill="#bbb"/>
+        <circle cx="285" cy="110" r="4" fill="#bbb"/>
+        <!-- Pink area fill (animated) -->
+        <path class="chart-area-fill" d="M40 110 L130 75 L210 42 L285 12 L285 110 L40 110 Z" fill="rgba(232,96,122,.12)"/>
+        <!-- Pink line (animated) -->
+        <polyline class="chart-line-pink" points="40,110 130,75 210,42 285,12" fill="none" stroke="#E8607A" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- Animated dots -->
+        <circle class="chart-dot-anim" cx="40" cy="110" r="4" fill="#E8607A"/>
+        <circle class="chart-dot-anim" cx="130" cy="75" r="4" fill="#E8607A"/>
+        <circle class="chart-dot-anim" cx="210" cy="42" r="4" fill="#E8607A"/>
+        <circle class="chart-dot-anim" cx="285" cy="12" r="4" fill="#E8607A"/>
+      </svg>
+      <div style="display:flex;justify-content:flex-end">
+        <div class="chart-badge">🌸 Método Florecer</div>
+      </div>
+    </div>
+    <div class="insight-box">
+      <div class="insight-text">Los ejercicios random funcionan un poco al principio. Pero sin progresión, los músculos se acostumbran y dejan de responder.<br><br><span class="pink-bold">No es falta de constancia. Es falta de método.</span></div>
+    </div>
+    <div class="info-box dark">
+      <div class="info-icon">✨</div>
+      <div class="info-text">El <strong>89% de las mujeres</strong> que aplicaron el Método Florecer completo vieron resultados visibles <span class="pink">antes de las 4 semanas.</span></div>
+    </div>
+    <button class="btn-info" onclick="continueStep(10)">Continuar</button>`,
+
+  // ── S10: TIME OF DAY (single) ──
+  10: () => `
+    <div class="q-title">¿En qué <em>momento del día</em> preferís dedicarte tiempo a vos?</div>
+    <div class="q-sub">Selecciona una opcion para avanzar</div>
+    <div class="opt-list">
+      ${radioOpt('momento','manana','🌅','A la mañana — arranco el día cuidándome')}
+      ${radioOpt('momento','noche','🌙','A la noche — es mi momento de desconexión')}
+      ${radioOpt('momento','mediodia','☀️','Al mediodía — aprovecho el descanso')}
+      ${radioOpt('momento','varia','🤹','Varía — necesito algo flexible')}
+    </div>
+    <div class="q-hint">El 80% de las alumnas del <em>Método Florecer</em> realizan su rutina de noche, es su momento de desconexión y autocuidado.</div>`,
+
+  // ── S11: CONSTANCY (single) ──
+  11: () => `
+    <div class="q-title">¿Cuándo dejaste de ser <em>constante</em> con lo que probabas?</div>
+    <div class="q-sub">Selecciona una opcion para avanzar</div>
+    <div class="opt-list">
+      ${radioOpt('constante','semanas','⚡','Hace pocas semanas','Lo arranqué con ganas pero no vi resultados rápido')}
+      ${radioOpt('constante','meses','📅','Al mes o dos meses','Le di tiempo pero tampoco noté cambios reales')}
+      ${radioOpt('constante','varias','🔄','Fui y vine varias veces','Arrancaba, cortaba, volvía a intentar')}
+      ${radioOpt('constante','nunca','📕','Nunca llegué a arrancar de verdad','Siempre algo me frenaba antes de empezar')}
+    </div>`,
+
+  // ── S12: DIAGNOSTIC LOADING SCREEN ──
+  12: () => `
+    <div class="q-badge">🔍 TU DIAGNÓSTICO</div>
+    <div class="q-title">Ya sabemos <em>exactamente</em> qué necesita tu cara</div>
+    <div class="q-sub" style="color:var(--gray)">Analizamos tus respuestas. Seguimos armando tu plan...</div>
+    <div style="background:linear-gradient(135deg,var(--pink),#c94065);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden">
+      <div style="position:absolute;right:-20px;top:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.08)"></div>
+      <div style="position:absolute;left:-30px;bottom:-30px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.05)"></div>
+      <div style="font-size:28px">🌸</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,0.7)">DIAGNÓSTICO LISTO</div>
+      <div style="font-size:18px;font-weight:800;color:#fff;line-height:1.3">Tus músculos faciales responden al estímulo correcto — a cualquier edad</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6">Lo que notas tiene solución real. <strong style="color:#fff">No necesitas procedimientos ni productos.</strong> Solo el método correcto, en el orden correcto.</div>
+      <div style="display:flex;gap:8px">
+        <div style="background:rgba(255,255,255,.15);border-radius:99px;padding:4px 10px;font-size:11px;font-weight:700;color:#fff">10 min/día</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:99px;padding:4px 10px;font-size:11px;font-weight:700;color:#fff">Desde casa</div>
+        <div style="background:rgba(255,255,255,.15);border-radius:99px;padding:4px 10px;font-size:11px;font-weight:700;color:#fff">Sin productos</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${loadFeature('💪','Rutinas por zona','Ejercicios específicos para cada área que te preocupa')}
+      ${loadFeature('📈','Progresión semana a semana','Cada semana activa capas más profundas del músculo')}
+      ${loadFeature('⏱','10 minutos al día','Desde tu casa, sin equipamiento, sin turnos')}
+    </div>
+    <div class="info-box dark">
+      <div class="info-icon">🎯</div>
+      <div class="info-text">El <strong>89% de las mujeres con tu perfil</strong> vieron <span class="pink">resultados visibles</span> antes de completar su <strong>plan personalizado.</strong></div>
+    </div>
+    <div class="loading-stage" id="ls12">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--gray-light);margin-bottom:6px"><span>Personalizando tu plan...</span><span id="ls12-pct">0%</span></div>
+      <div style="height:6px;background:var(--pink-light);border-radius:99px;overflow:hidden"><div id="ls12-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--pink),var(--pink-btn));border-radius:99px;transition:width 0.1s linear"></div></div>
+    </div>`,
+
+  // ── S13: CONTENT SHOWCASE ──
+  13: () => `
+    <div class="q-title" style="text-align:center">Con el <em>Método Florecer</em>, tu cara va a contar lo que realmente sos</div>
+    <div style="border-radius:16px;overflow:hidden;position:relative">
+      <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-1pkG7-resized-face-centered-3.jpg" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;display:block">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,0.6))">
+        <div style="color:var(--pink-btn);font-size:11px;font-weight:700;letter-spacing:.06em">Rutinas diarias por zona</div>
+        <div style="color:#fff;font-size:16px;font-weight:700">Ejercicios específicos para cada área</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--gray);line-height:1.6">Para cada zona que te preocupa — <strong style="color:var(--dark)">10 minutos al día desde tu casa</strong></div>
+    <div style="border-radius:16px;overflow:hidden;position:relative">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+        <div style="position:relative">
+          <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-bkKAB-resized-face-centered-4.jpg" style="width:100%;aspect-ratio:1;object-fit:cover;object-position:top;display:block">
+          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.5);color:#fff;font-size:12px;font-weight:600;text-align:center;padding:6px">Antes</div>
+        </div>
+        <div style="position:relative">
+          <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-rQOv0-screenshot-2026-02-26-at-001217.png" style="width:100%;aspect-ratio:1;object-fit:cover;object-position:top;display:block">
+          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(232,96,122,0.7);color:#fff;font-size:12px;font-weight:600;text-align:center;padding:6px">Después – 30 Días</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--pink);font-weight:500;line-height:1.55">🌸 Ahora ya sabes cuáles serán tus resultados en los próximos <strong>30 días</strong> — y el método para llegar.</div>
+    <div class="loading-stage" id="ls13">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--gray-light);margin-bottom:6px"><span>Cargando...</span><span id="ls13-pct">0%</span></div>
+      <div style="height:6px;background:var(--pink-light);border-radius:99px;overflow:hidden"><div id="ls13-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--pink),var(--pink-btn));border-radius:99px;transition:width 0.1s linear"></div></div>
+    </div>`,
+
+  // ── S14: PLAN BUILDING ──
+  14: () => `
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--pink),#c94065);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 4px 16px rgba(232,96,122,.3)">🌸</div>
+      <div class="q-title">Creando tu <em>Método Florecer</em> personalizado...</div>
+      <div class="q-sub">Analizando tus zonas prioritarias para armar tu plan exacto</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:500;color:var(--dark);margin-bottom:6px"><span>Analizando tus zonas prioritarias...</span><span id="pb1-pct" style="color:var(--pink)">0%</span></div>
+        <div style="height:8px;background:var(--pink-light);border-radius:99px;overflow:hidden"><div id="pb1" style="height:100%;width:0%;background:linear-gradient(90deg,var(--pink),var(--pink-btn));border-radius:99px;transition:width .05s linear"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:500;color:var(--dark);margin-bottom:6px"><span>Calculando tu progresión ideal...</span><span id="pb2-pct" style="color:var(--pink)">0%</span></div>
+        <div style="height:8px;background:var(--pink-light);border-radius:99px;overflow:hidden"><div id="pb2" style="height:100%;width:0%;background:linear-gradient(90deg,var(--pink),var(--pink-btn));border-radius:99px;transition:width .05s linear"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:500;color:var(--dark);margin-bottom:6px"><span>Preparando tu plan personalizado...</span><span id="pb3-pct" style="color:var(--pink)">0%</span></div>
+        <div style="height:8px;background:var(--pink-light);border-radius:99px;overflow:hidden"><div id="pb3" style="height:100%;width:0%;background:linear-gradient(90deg,var(--pink),var(--pink-btn));border-radius:99px;transition:width .05s linear"></div></div>
+      </div>
+    </div>
+    <div class="section-label" style="margin-top:4px">MIENTRAS TANTO — MENSAJES REALES DE ALUMNAS</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      ${waMock('sofi.riquelm...','Helena! Qué milagro. Mi vecina me preguntó si me hice algo. Le dije que no y no me creyó 😂','rgba(232,96,122,0.15)','var(--pink)')}
+      ${waMock('nataliasantina...','Helena, no me canso. Lo que más noto en mí es que cambié bastante. Me tienen bastante de los labios y me veo más fresca','rgba(28,28,30,0.05)','var(--dark)')}
+      ${waMock('magdalena ...','Gracias por tu paciencia por ser muy buena persona. Estoy muy contenta con los ejercicios porque veo que mis alumnos cambian todo el tiempo','rgba(232,96,122,0.15)','var(--pink)')}
+    </div>
+    <div class="info-box dark" style="margin-top:4px">
+      <div class="info-icon">✅</div>
+      <div class="info-text"><strong>Tu plan personalizado está listo.</strong> En un momento vas a ver exactamente <span class="pink">qué hacer, cuándo y cómo</span> para transformar tu rostro.</div>
+    </div>
+    <div class="loading-stage" id="ls14">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--gray-light);margin-bottom:6px"><span>Cargando...</span><span id="ls14-pct">0%</span></div>
+      <div style="height:6px;background:var(--pink-light);border-radius:99px;overflow:hidden"><div id="ls14-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--pink),var(--pink-btn));border-radius:99px;transition:width 0.1s linear"></div></div>
+    </div>`,
+
+  // ── S15: TESTIMONIALS (was S12) ──
+  15: () => `
+    <div class="q-badge">🌸 HISTORIAS REALES</div>
+    <div class="q-title">Mujeres que ya lo <em>comprobaron</em></div>
+    <div class="q-sub">Sin filtros, sin procedimientos — solo el método</div>
+    <div class="video-grid">
+      <div class="video-card" id="vc1">
+        <img src="https://img.youtube.com/vi/eNiC-aozrkY/mqdefault.jpg" alt="Testimonio 1" style="width:100%;height:100%;object-fit:cover;border-radius:12px;display:block">
+        <div class="video-play" onclick="playVideo('vc1','eNiC-aozrkY')"><div class="video-play-btn"></div></div>
+        <div class="video-label">C · Helena</div>
+      </div>
+      <div class="video-card" id="vc2">
+        <img src="https://img.youtube.com/vi/a-8eGsGDhfg/mqdefault.jpg" alt="Testimonio 2" style="width:100%;height:100%;object-fit:cover;border-radius:12px;display:block">
+        <div class="video-play" onclick="playVideo('vc2','a-8eGsGDhfg')"><div class="video-play-btn"></div></div>
+        <div class="video-label">A · Helena</div>
+      </div>
+    </div>
+    <div class="carousel-dots"><div class="dot active"></div><div class="dot"></div></div>
+    <div class="review-card">
+      <div class="review-head">
+        <div class="review-avatar">👩</div>
+        <div class="review-info">
+          <div class="review-name">Marcela G.</div>
+          <div class="review-city">47 años</div>
+        </div>
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      </div>
+      <div class="review-quote">"En 3 semanas mi marido me preguntó si me había hecho algo. <span class="pink">No le dije nada</span> y le mandé una foto de antes y después."</div>
+    </div>
+    <div class="review-card">
+      <div class="review-head">
+        <div class="review-avatar">👩</div>
+        <div class="review-info">
+          <div class="review-name">Claudia R.</div>
+          <div class="review-city">52 años — Córdoba</div>
+        </div>
+        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      </div>
+      <div class="review-quote">"Probé de todo. Esto es lo único que funcionó porque tiene <span class="pink">un orden, una progresión.</span> No son ejercicios random."</div>
+    </div>
+    <div class="social-dark">
+      <div style="font-size:24px">🌸</div>
+      <div class="social-dark-text"><strong>+14.400 mujeres</strong> ya aplicaron el Método Florecer con resultados visibles en 4 semanas</div>
+    </div>
+    <button class="btn-info" onclick="continueStep(16)">QUIERO MI PLAN PERSONALIZADO</button>`,
+
+  // ── S16: INCREDIBLE RESULT (was S13, single) ──
+  16: () => `
+    <div class="q-title">¿Qué sería para ti un resultado <em>increíble?</em></div>
+    <div class="q-sub">(Esto termina de personalizar tu plan)</div>
+    <div class="opt-list">
+      ${radioOpt('resultado','espejo','🛡','Mirarme al espejo y reconocerme','Volver a sentir que esa soy yo')}
+      ${radioOpt('resultado','foto','📷','Sacarme una foto y no querer borrarla','Subir una foto y decir "esta sí"')}
+      ${radioOpt('resultado','alguien','💬','Que alguien me pregunte qué estoy haciendo','Que se note sin que yo tenga que decir nada')}
+      ${radioOpt('resultado','control','💪','Sentir que tomé el control','Depender de mí misma, no de turnos ni procedimientos')}
+    </div>`,
+};
+
+// ── BEFORE/AFTER CAROUSEL ──
+let baIdx = 0;
+function baNav(dir) {
+  const slides = document.querySelectorAll('.ba-slide');
+  const dots = document.querySelectorAll('#s-result .carousel-dots .dot');
+  const captions = ['21 días de práctica', '30 días de práctica', '1 mes de práctica', '21 días de práctica', 'Resultado visible – frente', 'Resultado visible – perfil'];
+  slides[baIdx].classList.remove('active');
+  dots[baIdx].classList.remove('active');
+  baIdx = (baIdx + dir + slides.length) % slides.length;
+  slides[baIdx].classList.add('active');
+  dots[baIdx].classList.add('active');
+  document.getElementById('ba-caption').textContent = captions[baIdx];
+}
+
+// ── COUNTDOWN ──
+function startCountdown() {
+  if (window._cdInterval) return;
+  let total = 59 * 60 + 59;
+  function tick() {
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    const hEl = document.getElementById('cd-h');
+    const mEl = document.getElementById('cd-m');
+    const sEl = document.getElementById('cd-s');
+    if (hEl) hEl.textContent = String(h).padStart(2,'0');
+    if (mEl) mEl.textContent = String(m).padStart(2,'0');
+    if (sEl) sEl.textContent = String(s).padStart(2,'0');
+    if (total > 0) total--;
+  }
+  tick();
+  window._cdInterval = setInterval(tick, 1000);
+}
+
+// ── VIDEO PLAYER ──
+function playVideo(cardId, videoId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.innerHTML = `<iframe
+    src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    style="width:100%;height:100%;border-radius:12px;display:block;position:absolute;top:0;left:0;">
+  </iframe>`;
+  card.style.position = 'relative';
+}
+
+// ── FAQ ──
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>
