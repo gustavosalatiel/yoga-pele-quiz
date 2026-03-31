@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Adicionar Variáveis Cloudflare</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; background: #f5f5f5; }
+  .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+  h1 { color: #333; font-size: 22px; }
+  .status { padding: 15px; border-radius: 8px; margin: 10px 0; font-weight: bold; font-size: 16px; }
+  .pending { background: #fff3cd; color: #856404; }
+  .success { background: #d4edda; color: #155724; }
+  .error { background: #f8d7da; color: #721c24; }
+  button { background: #F6821F; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 18px; cursor: pointer; width: 100%; margin-top: 20px; }
+  button:hover { background: #e0710e; }
+  button:disabled { background: #ccc; cursor: not-allowed; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>🚀 Adicionar Variáveis ao Cloudflare Worker</h1>
+  <p>Clique no botão abaixo para adicionar automaticamente o PIXEL_ID e ACCESS_TOKEN ao seu Worker.</p>
+
+  <div id="status-pixel" class="status pending">⏳ PIXEL_ID — aguardando...</div>
+  <div id="status-token" class="status pending">⏳ ACCESS_TOKEN — aguardando...</div>
+
+  <button id="btn" onclick="run()">▶ Adicionar Agora</button>
+</div>
+
+<script>
+const CF_TOKEN    = "cfut_oXPqiBe91H90bf3YddbYh2eNuA5iEAByzVRxSW3Sd417ce04";
+const ACCOUNT_ID  = "5e7a6d96219ace37638854a076286a8e";
+const WORKER_NAME = "late-feather-031byoga-pele-capi";
+const PIXEL_ID    = "69cb295f725a1b96c762db43";
+const META_TOKEN  = "EAAQjs5iKBGsBRN3ttvkjvKM6ChZBGEo5VZBtKs7lUJyjA0ab9J2T2UPN5ZAZAdU21maEylbeRcHeLJlGRQEWQ1cV3mjbgY94y45F8yJkgIKOS5yMGtQUdaWLph5oScuieabqPRZBSMr2ZBLBtZAZA4UOyoxpOtAJYcYLNsEefJ6NzqauA9aPA0UPtiJtJ5WCErSwwgZDZD";
+
+const BASE = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/services/${WORKER_NAME}/environments/production`;
+const HEADERS = { "Authorization": `Bearer ${CF_TOKEN}`, "Content-Type": "application/json" };
+
+function setStatus(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = `status ${type}`;
+  el.textContent = msg;
+}
+
+async function run() {
+  document.getElementById('btn').disabled = true;
+  document.getElementById('btn').textContent = '⏳ Adicionando...';
+
+  // 1. PIXEL_ID
+  setStatus('status-pixel', 'pending', '⏳ Adicionando PIXEL_ID...');
+  try {
+    const r1 = await fetch(`${BASE}/variables`, {
+      method: "POST",
+      headers: HEADERS,
+      body: JSON.stringify({ name: "PIXEL_ID", text: PIXEL_ID })
+    });
+    const j1 = await r1.json();
+    if (j1.success) {
+      setStatus('status-pixel', 'success', '✅ PIXEL_ID adicionado com sucesso!');
+    } else {
+      setStatus('status-pixel', 'error', '❌ Erro PIXEL_ID: ' + (j1.errors?.[0]?.message || JSON.stringify(j1.errors)));
+    }
+  } catch(e) {
+    setStatus('status-pixel', 'error', '❌ Erro: ' + e.message);
+  }
+
+  // 2. ACCESS_TOKEN
+  setStatus('status-token', 'pending', '⏳ Adicionando ACCESS_TOKEN...');
+  try {
+    const r2 = await fetch(`${BASE}/secrets`, {
+      method: "POST",
+      headers: HEADERS,
+      body: JSON.stringify({ name: "ACCESS_TOKEN", text: META_TOKEN })
+    });
+    const j2 = await r2.json();
+    if (j2.success) {
+      setStatus('status-token', 'success', '✅ ACCESS_TOKEN adicionado com sucesso!');
+      document.getElementById('btn').textContent = '✅ CONCLUÍDO!';
+    } else {
+      setStatus('status-token', 'error', '❌ Erro ACCESS_TOKEN: ' + (j2.errors?.[0]?.message || JSON.stringify(j2.errors)));
+      document.getElementById('btn').textContent = '❌ Verifique os erros acima';
+    }
+  } catch(e) {
+    setStatus('status-token', 'error', '❌ Erro: ' + e.message);
+  }
+}
+</script>
+</body>
+</html>
