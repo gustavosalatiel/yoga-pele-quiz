@@ -1,0 +1,62 @@
+{
+  "gtm": {
+    "gtm_id": "SEU_GTM_ID_AQUI",
+    "pixel_id": "69cb295f725a1b96c762db43",
+    "tags": {
+      "pixel_pageview": {
+        "name": "Meta Pixel - PageView",
+        "type": "html",
+        "code": "<!-- Meta Pixel Base Code -->\n<script>\n!function(f,b,e,v,n,t,s)\n{if(f.fbq)return;n=f.fbq=function(){n.callMethod?\nn.callMethod.apply(n,arguments):n.queue.push(arguments)};\nif(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';\nn.queue=[];t=b.createElement(e);t.async=!0;\nt.src=v;s=b.getElementsByTagName(e)[0];\ns.parentNode.insertBefore(t,s)}(window, document,'script',\n'https://connect.facebook.net/en_US/fbevents.js');\nfbq('init', '69cb295f725a1b96c762db43');\nfbq('track', 'PageView');\n</script>\n<noscript><img height=\"1\" width=\"1\" style=\"display:none\"\nsrc=\"https://www.facebook.com/tr?id=69cb295f725a1b96c762db43&ev=PageView&noscript=1\"\n/></noscript>",
+        "trigger": "All Pages"
+      },
+      "lead_event": {
+        "name": "Meta Pixel - Lead",
+        "type": "html",
+        "code": "fbq('track', 'Lead', {content_name: 'Quiz Complete'});",
+        "trigger": "Custom Event - quiz_complete"
+      }
+    },
+    "instructions": [
+      "1. Acesse: https://tagmanager.google.com",
+      "2. Crie container 'Yoga Pele Quiz' (Web)",
+      "3. Copie o ID (ex: GTM-ABCDEF12)",
+      "4. Substitua 'SEU_GTM_ID_AQUI' acima",
+      "5. Crie as tags listadas acima no GTM",
+      "6. Publique o container"
+    ]
+  },
+  "cloudflare_worker": {
+    "name": "yoga-capi-proxy",
+    "placeholders_to_replace": {
+      "FB_PIXEL_ID": "69cb295f725a1b96c762db43",
+      "FB_ACCESS_TOKEN": "GERA EM: https://business.facebook.com/settings/apps-and-websites",
+      "ALLOWED_ORIGINS": [
+        "https://gustavosalatiel.github.io",
+        "https://seudominio.com"
+      ]
+    },
+    "deployment_steps": [
+      "1. Acesse: https://dash.cloudflare.com",
+      "2. Workers & Pages → Create → Worker",
+      "3. Nome: yoga-capi-proxy",
+      "4. Cole o código de worker.js",
+      "5. Substitua os placeholders acima",
+      "6. Save and Deploy",
+      "7. Copie a URL: https://yoga-capi-proxy.SEU-ACCOUNT.workers.dev"
+    ]
+  },
+  "html_updates": {
+    "line_19": {
+      "find": "<link rel=\"preload\" as=\"script\" href=\"https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX\" />",
+      "replace": "<link rel=\"preload\" as=\"script\" href=\"https://www.googletagmanager.com/gtm.js?id=GTM-SEU_ID\" />"
+    },
+    "line_26": {
+      "find": "})(window,document,'script','dataLayer','GTM-XXXXXXX');",
+      "replace": "})(window,document,'script','dataLayer','GTM-SEU_ID');"
+    },
+    "capi_worker_url": {
+      "find": "var CAPI_WORKER_URL = 'https://capi-proxy.SEU_SUBDOMAIN.workers.dev';",
+      "replace": "var CAPI_WORKER_URL = 'https://yoga-capi-proxy.SEU-ACCOUNT.workers.dev';"
+    }
+  }
+}

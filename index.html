@@ -5,6 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Metodo Florecer BY Helena Rodriguez</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    window.pixelId = "69cb295f725a1b96c762db43";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+
+  <!-- ── GTM Preconnect + Preload (melhora performance / LCP) ── -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preload" as="script" href="https://www.googletagmanager.com/gtm.js?id=GTM-58VNW6HN" />
+
+  <!-- ── Google Tag Manager ── substitua GTM-XXXXXXX pelo seu container ID ── -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-58VNW6HN');</script>
+
+  <!-- ── FBC Fix — captura fbclid e persiste como cookie 1st-party (90 dias) ── -->
+  <script>
+  (function(){
+    var q = new URLSearchParams(window.location.search);
+    var fbclid = q.get('fbclid');
+    if (fbclid) {
+      var ts  = Math.floor(Date.now() / 1000);
+      var fbc = 'fb.1.' + ts + '.' + fbclid;
+      var exp = new Date(Date.now() + 90 * 864e5).toUTCString();
+      document.cookie = '_fbc=' + encodeURIComponent(fbc) +
+        '; expires=' + exp + '; path=/; SameSite=Lax';
+    }
+  })();
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -571,16 +606,16 @@
         </div>
       </div>
       <div class="ba-slide" id="ba2">
-        <img src="download%201.jpg" alt="Antes y Después – 1 mes" style="width:100%;border-radius:12px;display:block">
+        <img src="download%201.webp" alt="Antes y Después – 1 mes" style="width:100%;border-radius:12px;display:block">
       </div>
       <div class="ba-slide" id="ba3">
-        <img src="download%202.jpg" alt="Antes y Después – 21 días" style="width:100%;border-radius:12px;display:block">
+        <img src="download%202.webp" alt="Antes y Después – 21 días" style="width:100%;border-radius:12px;display:block">
       </div>
       <div class="ba-slide" id="ba4">
-        <img src="download%203.jpg" alt="Antes y Después – frente" style="width:100%;border-radius:12px;display:block">
+        <img src="download%203.webp" alt="Antes y Después – frente" style="width:100%;border-radius:12px;display:block">
       </div>
       <div class="ba-slide" id="ba5">
-        <img src="download%204.jpg" alt="Antes y Después – perfil" style="width:100%;border-radius:12px;display:block">
+        <img src="download%204.webp" alt="Antes y Después – perfil" style="width:100%;border-radius:12px;display:block">
       </div>
       <button class="ba-nav ba-prev" onclick="baNav(-1)">←</button>
       <button class="ba-nav ba-next" onclick="baNav(1)">→</button>
@@ -646,7 +681,7 @@
       </div>
       <div class="plan-price-label">PRECIO DE HOY</div>
       <div class="plan-price"><span class="currency">$</span>9.90<span class="cur-suffix">USD</span></div>
-      <button class="plan-btn light-btn">Empezar las 4 semanas →</button>
+      <button class="plan-btn light-btn" onclick="sendCAPI('InitiateCheckout',{content_name:'Plan 4 Semanas',value:9.90,currency:'USD'});window.open('https://pay.kiwify.com/fyEfHpZ','_blank')">Empezar las 4 semanas →</button>
       <div class="plan-perday">≈ $0.33/día durante 30 días</div>
       <div class="plan-timer-note">⏳ A este precio solo mientras el timer esté activo</div>
     </div>
@@ -672,7 +707,7 @@
       </div>
       <div class="plan-price-label" style="color:var(--pink-btn)">PRECIO DE HOY</div>
       <div class="plan-price"><span class="currency">$</span>9.90<span class="cur-suffix">USD</span></div>
-      <button class="plan-btn featured-btn">¡Quiero resultados completos! →</button>
+      <button class="plan-btn featured-btn" onclick="sendCAPI('InitiateCheckout',{content_name:'Plan Intermedio 8 Semanas',value:9.90,currency:'USD'});window.open('https://pay.kiwify.com/fyEfHpZ','_blank')">¡Quiero resultados completos! →</button>
       <div class="plan-perday">≈ $0.17/día durante 60 días</div>
       <div class="plan-timer-note">⏳ 50% OFF solo mientras el timer esté activo</div>
     </div>
@@ -695,7 +730,7 @@
       <div class="plan-info"><span>💡</span><span>Si sabes que vas a continuar, <span class="pink">el Full cuesta menos que volver a comprar después.</span> Pagas una vez y nunca más.</span></div>
       <div class="plan-price-label">PRECIO DE HOY</div>
       <div class="plan-price"><span class="currency">$</span>9.90<span class="cur-suffix">USD</span></div>
-      <button class="plan-btn light-btn">Quiero el acceso total →</button>
+      <button class="plan-btn light-btn" onclick="sendCAPI('InitiateCheckout',{content_name:'Plan Full 12 Semanas',value:9.90,currency:'USD'});window.open('https://pay.kiwify.com/fyEfHpZ','_blank')">Quiero el acceso total →</button>
       <div class="plan-perday">≈ $0.08/día durante 120 días</div>
       <div class="plan-timer-note">⏳ 70% OFF solo con el timer activo</div>
     </div>
@@ -765,7 +800,7 @@
 </div><!-- end page-frame -->
 
 <div class="sticky-result-cta" id="sticky-result-cta">
-  <button class="plan-btn featured-btn" onclick="document.querySelector('.plan-featured .plan-btn').scrollIntoView({behavior:'smooth',block:'center'})">¡Quiero resultados completos! →</button>
+  <button class="plan-btn featured-btn" onclick="sendCAPI('InitiateCheckout',{content_name:'Plan Intermedio 8 Semanas',value:9.90,currency:'USD'});window.open('https://pay.kiwify.com/fyEfHpZ','_blank')">¡Quiero resultados completos! →</button>
   <div class="sticky-cta-note"><span>⏳ 50% OFF activo</span><span style="opacity:.4">·</span><span>⭐ Más elegido</span><span style="opacity:.4">·</span><span>🛡️ Garantía 30 días</span></div>
 </div>
 
@@ -824,6 +859,8 @@ function goTo(step) {
     startCountdown();
     populateDiagCard();
     setupStickyCtaScroll();
+    // ── CAPI: Lead ao chegar na tela de resultado ──
+    if (typeof sendCAPI === 'function') sendCAPI('Lead', { content_name: 'Quiz Completo' });
   } else {
     document.getElementById('quiz-shell').classList.add('active');
     document.getElementById('quiz-shell').scrollTop = 0;
@@ -844,7 +881,7 @@ function goTo(step) {
     }
     // Loading screen auto-advance hooks
     if (step === 12) setTimeout(() => startLoadingScreen('ls12', 3000, 13), 300);
-    if (step === 13) setTimeout(() => startLoadingScreen('ls13', 3000, 14), 300);
+    if (step === 13) { setTimeout(() => initBaSlider(), 50); setTimeout(() => startLoadingScreen('ls13', 3000, 14), 300); }
     if (step === 14) setTimeout(() => startPlanBuilding(), 300);
   }
 }
@@ -1167,7 +1204,7 @@ const steps = {
   2: () => `
     <div class="q-badge">🌸 TU DIAGNÓSTICO</div>
     <div class="q-title">¿Qué es lo que más te molesta de tu <em>cara hoy?</em></div>
-    <div class="q-sub">— Podés elegir más de una opción</div>
+    <div class="q-sub">— Puedes elegir más de una opción</div>
     <div class="opt-list">
       ${checkOpt('molesta','papada','🫣','La papada que no desaparece')}
       ${checkOpt('molesta','definicion','😔','Que mi cara perdió definición y se ve caída')}
@@ -1181,7 +1218,7 @@ const steps = {
   // ── S3: TRIED (multi-check) ──
   3: () => `
     <div class="q-title">¿Ya probaste hacer algo para <em>mejorar tu cara?</em></div>
-    <div class="q-sub">Podés elegir más de una opción</div>
+    <div class="q-sub">Puedes elegir más de una opción</div>
     <div class="opt-list">
       ${checkOpt('probaste','nada','😈','Nunca probé nada todavía')}
       ${checkOpt('probaste','youtube','😬','Vi videos en YouTube pero no fui constante')}
@@ -1232,7 +1269,7 @@ const steps = {
     <div class="info-hero" style="gap:10px">
       <div class="info-emoji-circle">💎</div>
     </div>
-    <div class="q-title">¿Cómo te sentís cuando te mirás al <em>espejo últimamente?</em></div>
+    <div class="q-title">¿Cómo te sientes cuando te miras al <em>espejo últimamente?</em></div>
     <div style="display:flex;flex-direction:column;gap:10px">
       ${simpleOpt('espejo','bien','Bien, me gusto como estoy')}
       ${simpleOpt('espejo','cambios','Noto cambios que no me gustan pero lo manejo')}
@@ -1254,8 +1291,8 @@ const steps = {
 
   // ── S7: GOALS GRID (multi-check 2-col) ──
   7: () => `
-    <div class="q-title">¿Con qué te querés ver <em>diferente</em> en 4 semanas?</div>
-    <div class="q-sub">Podés elegir más de una</div>
+    <div class="q-title">¿Con qué quieres verte <em>diferente</em> en 4 semanas?</div>
+    <div class="q-sub">Puedes elegir más de una</div>
     <div class="opt-grid2">
       ${checkGrid('metas','papada','🚩','Reducir la papada')}
       ${checkGrid('metas','mandibula','🔥','Definir mi mandíbula')}
@@ -1271,8 +1308,8 @@ const steps = {
 
   // ── S8: ZONES (multi-check with SVG face images) ──
   8: () => `
-    <div class="q-title">¿Qué zonas de tu cara querés mejorar?</div>
-    <div class="q-sub">"Podés elegir más de una"</div>
+    <div class="q-title">¿Qué zonas de tu cara quieres mejorar?</div>
+    <div class="q-sub">Puedes elegir más de una</div>
     <div class="opt-list">
       ${checkZone('zonas','frente','Frente')}
       ${checkZone('zonas','ojos','Ojos y párpados')}
@@ -1332,11 +1369,11 @@ const steps = {
 
   // ── S10: TIME OF DAY (single) ──
   10: () => `
-    <div class="q-title">¿En qué <em>momento del día</em> preferís dedicarte tiempo a vos?</div>
+    <div class="q-title">¿En qué <em>momento del día</em> prefieres dedicarte tiempo a ti?</div>
     <div class="q-sub">Selecciona una opcion para avanzar</div>
     <div class="opt-list">
-      ${radioOpt('momento','manana','🌅','A la mañana — arranco el día cuidándome')}
-      ${radioOpt('momento','noche','🌙','A la noche — es mi momento de desconexión')}
+      ${radioOpt('momento','manana','🌅','Por la mañana — empiezo el día cuidándome')}
+      ${radioOpt('momento','noche','🌙','Por la noche — es mi momento de desconexión')}
       ${radioOpt('momento','mediodia','☀️','Al mediodía — aprovecho el descanso')}
       ${radioOpt('momento','varia','🤹','Varía — necesito algo flexible')}
     </div>
@@ -1347,10 +1384,10 @@ const steps = {
     <div class="q-title">¿Cuándo dejaste de ser <em>constante</em> con lo que probabas?</div>
     <div class="q-sub">Selecciona una opcion para avanzar</div>
     <div class="opt-list">
-      ${radioOpt('constante','semanas','⚡','Hace pocas semanas','Lo arranqué con ganas pero no vi resultados rápido')}
+      ${radioOpt('constante','semanas','⚡','Hace pocas semanas','Empecé con ganas pero no vi resultados rápido')}
       ${radioOpt('constante','meses','📅','Al mes o dos meses','Le di tiempo pero tampoco noté cambios reales')}
-      ${radioOpt('constante','varias','🔄','Fui y vine varias veces','Arrancaba, cortaba, volvía a intentar')}
-      ${radioOpt('constante','nunca','📕','Nunca llegué a arrancar de verdad','Siempre algo me frenaba antes de empezar')}
+      ${radioOpt('constante','varias','🔄','Fui y vine varias veces','Empezaba, cortaba, volvía a intentar')}
+      ${radioOpt('constante','nunca','📕','Nunca llegué a empezar de verdad','Siempre algo me frenaba antes de comenzar')}
     </div>`,
 
   // ── S12: DIAGNOSTIC LOADING SCREEN ──
@@ -1387,26 +1424,26 @@ const steps = {
 
   // ── S13: CONTENT SHOWCASE ──
   13: () => `
-    <div class="q-title" style="text-align:center">Con el <em>Método Florecer</em>, tu cara va a contar lo que realmente sos</div>
+    <div class="q-title" style="text-align:center">Con el <em>Método Florecer</em>, tu cara va a contar lo que realmente eres</div>
     <div style="border-radius:16px;overflow:hidden;position:relative">
-      <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-1pkG7-resized-face-centered-3.jpg" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;display:block">
-      <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,0.6))">
+      <img src="lg-IwgH0-laura-fazio-ejercicio-facial-yt-profile-photo-800-800.png" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top center;display:block">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,0.65))">
         <div style="color:var(--pink-btn);font-size:11px;font-weight:700;letter-spacing:.06em">Rutinas diarias por zona</div>
         <div style="color:#fff;font-size:16px;font-weight:700">Ejercicios específicos para cada área</div>
       </div>
     </div>
     <div style="font-size:13px;color:var(--gray);line-height:1.6">Para cada zona que te preocupa — <strong style="color:var(--dark)">10 minutos al día desde tu casa</strong></div>
-    <div style="border-radius:16px;overflow:hidden;position:relative">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
-        <div style="position:relative">
-          <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-bkKAB-resized-face-centered-4.jpg" style="width:100%;aspect-ratio:1;object-fit:cover;object-position:top;display:block">
-          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.5);color:#fff;font-size:12px;font-weight:600;text-align:center;padding:6px">Antes</div>
-        </div>
-        <div style="position:relative">
-          <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-rQOv0-screenshot-2026-02-26-at-001217.png" style="width:100%;aspect-ratio:1;object-fit:cover;object-position:top;display:block">
-          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(232,96,122,0.7);color:#fff;font-size:12px;font-weight:600;text-align:center;padding:6px">Después – 30 Días</div>
-        </div>
+    <div class="ba-slider-wrap" id="ba-slider-s13" style="border-radius:16px;overflow:hidden;position:relative;user-select:none;touch-action:none">
+      <img src="lg-1J8rK-img-1.webp" style="width:100%;display:block">
+      <div class="ba-slider-after" style="position:absolute;top:0;left:0;width:50%;height:100%;overflow:hidden">
+        <img src="lg-btGyx-img.webp" style="width:200%;max-width:none;display:block">
       </div>
+      <div class="ba-slider-line" style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:2px;height:100%;background:#fff;box-shadow:0 0 6px rgba(0,0,0,.4)"></div>
+      <div class="ba-slider-handle" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;cursor:ew-resize">
+        <svg width="18" height="14" viewBox="0 0 18 14"><path d="M5 1L1 7l4 6M13 1l4 6-4 6" stroke="#E8607A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </div>
+      <div style="position:absolute;bottom:8px;left:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:99px">Antes</div>
+      <div style="position:absolute;bottom:8px;right:10px;background:rgba(232,96,122,.8);color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:99px">Después</div>
     </div>
     <div style="font-size:13px;color:var(--pink);font-weight:500;line-height:1.55">🌸 Ahora ya sabes cuáles serán tus resultados en los próximos <strong>30 días</strong> — y el método para llegar.</div>
     <div class="loading-stage" id="ls13">
@@ -1484,7 +1521,7 @@ const steps = {
         <div class="review-avatar">👩</div>
         <div class="review-info">
           <div class="review-name">Claudia R.</div>
-          <div class="review-city">52 años — Córdoba</div>
+          <div class="review-city">52 años</div>
         </div>
         <div class="review-stars">⭐⭐⭐⭐⭐</div>
       </div>
@@ -1520,6 +1557,35 @@ function baNav(dir) {
   slides[baIdx].classList.add('active');
   dots[baIdx].classList.add('active');
   document.getElementById('ba-caption').textContent = captions[baIdx];
+}
+
+// ── BEFORE/AFTER SLIDER ──
+function initBaSlider() {
+  const wrap = document.getElementById('ba-slider-s13');
+  if (!wrap) return;
+  const after = wrap.querySelector('.ba-slider-after');
+  const afterImg = after.querySelector('img');
+  const line = wrap.querySelector('.ba-slider-line');
+  const handle = wrap.querySelector('.ba-slider-handle');
+  function setPos(pct) {
+    pct = Math.max(2, Math.min(98, pct));
+    after.style.width = pct + '%';
+    afterImg.style.width = (100 / pct * 100) + '%';
+    line.style.left = pct + '%';
+    handle.style.left = pct + '%';
+  }
+  function getPos(e) {
+    const rect = wrap.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    return (x / rect.width) * 100;
+  }
+  let dragging = false;
+  wrap.addEventListener('mousedown', e => { dragging = true; setPos(getPos(e)); });
+  window.addEventListener('mousemove', e => { if (dragging) setPos(getPos(e)); });
+  window.addEventListener('mouseup', () => dragging = false);
+  wrap.addEventListener('touchstart', e => { dragging = true; setPos(getPos(e)); }, {passive:true});
+  window.addEventListener('touchmove', e => { if (dragging) setPos(getPos(e)); }, {passive:true});
+  window.addEventListener('touchend', () => dragging = false);
 }
 
 // ── COUNTDOWN ──
@@ -1562,5 +1628,70 @@ function toggleFaq(btn) {
   item.classList.toggle('open');
 }
 </script>
+
+<!-- ── GTM noscript (fallback sem JavaScript) ── -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CAPI HELPER — dispara eventos via Cloudflare Worker (proxy)
+     Substitua CAPI_WORKER_URL pela URL do seu Worker após o deploy
+     ══════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  // ── Substitua pela URL do seu Cloudflare Worker após o deploy ──
+  var CAPI_WORKER_URL = 'https://late-feather-031byoga-pele-capi.gustavosalatiel158.workers.dev';
+
+  window.sendCAPI = function(eventName, customData) {
+    var ud = {};
+    // FBP
+    var fbpM = document.cookie.match(/(^|;\s*)_fbp=([^;]+)/);
+    if (fbpM) ud.fbp = decodeURIComponent(fbpM[2]);
+    // FBC
+    var fbcM = document.cookie.match(/(^|;\s*)_fbc=([^;]+)/);
+    if (fbcM) ud.fbc = decodeURIComponent(fbcM[2]);
+
+    var eventId = 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+
+    // ── 1. Server-side via Worker (não bloqueado por iOS/adblocker) ──
+    fetch(CAPI_WORKER_URL, {
+      method   : 'POST',
+      headers  : { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({
+        events  : [{
+          event_name      : eventName,
+          event_time      : Math.floor(Date.now() / 1000),
+          event_source_url: window.location.href,
+          event_id        : eventId,
+          user_data       : ud,
+          custom_data     : customData || {}
+        }],
+        fbclid: new URLSearchParams(window.location.search).get('fbclid')
+      })
+    }).catch(function(){});
+
+    // ── 2. Client-side Meta Pixel (deduplicado pelo event_id) ──
+    if (window.fbq) {
+      window.fbq('track', eventName, customData || {}, { eventID: eventId });
+    }
+
+    // ── 3. DataLayer GTM ──
+    if (window.dataLayer) {
+      window.dataLayer.push({
+        event   : 'capi_' + eventName.toLowerCase(),
+        eventID : eventId,
+        eventData: customData || {}
+      });
+    }
+  };
+
+  // ── PageView automático no carregamento ──
+  window.addEventListener('DOMContentLoaded', function() {
+    sendCAPI('PageView');
+  });
+})();
+</script>
 </body>
 </html>
+                 
