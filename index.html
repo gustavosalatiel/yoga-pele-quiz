@@ -4,25 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Metodo Florecer BY Helena Rodriguez</title>
-  <!-- PRIORIDADE 1: Preconnect para Meta Pixel (CRÍTICO para connect rate) -->
+  <!-- PRIORIDADE 0: Preconnect Meta (ANTES de tudo) -->
   <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
   <link rel="preconnect" href="https://www.facebook.com" crossorigin />
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://media.inlead.cloud" crossorigin />
   <link rel="dns-prefetch" href="https://img.youtube.com" />
   <link rel="dns-prefetch" href="https://cdn.utmify.com.br" />
 
-  <!-- PRIORIDADE 2: FBC cookie ANTES de qualquer pixel (sync, rápido) -->
+  <!-- PRIORIDADE 1: IMAGE PIXEL INSTANTÂNEO — dispara PageView em ~0ms, SEM esperar fbevents.js -->
+  <script>!function(){var p=new Image;p.src='https://www.facebook.com/tr?id=1582812279615323&ev=PageView&dl='+encodeURIComponent(location.href)+'&rl='+encodeURIComponent(document.referrer)+'&if=false&ts='+Date.now()+'&noscript=1'}()</script>
+
+  <!-- PRIORIDADE 2: FBC cookie (sync, rápido) -->
   <script>!function(){var q=new URLSearchParams(location.search),f=q.get('fbclid');if(f){var t=Math.floor(Date.now()/1e3);document.cookie='_fbc=fb.1.'+t+'.'+f+';expires='+(new Date(Date.now()+776e7)).toUTCString()+';path=/;SameSite=Lax'}}()</script>
 
-  <!-- PRIORIDADE 3: Meta Pixel DIRETO no HEAD (não depende de GTM!) -->
+  <!-- PRIORIDADE 3: Meta Pixel SDK (para eventos subsequentes: Lead, Purchase, etc.) -->
   <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1582812279615323');fbq('track','PageView');</script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1582812279615323&ev=PageView&noscript=1"/></noscript>
 
-  <!-- PRIORIDADE 4: GTM (async) -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','GTM-58VNW6HN');</script>
+  <!-- PRIORIDADE 4: Safety net — dispara PageView via sendBeacon se user sai rápido -->
+  <script>!function(){var f=0;function s(){if(f)return;f=1;try{navigator.sendBeacon('https://www.facebook.com/tr?id=1582812279615323&ev=PageView&dl='+encodeURIComponent(location.href)+'&noscript=1','')}catch(e){}}document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')s()});window.addEventListener('pagehide',s)}()</script>
+
+  <!-- GTM REMOVIDO — estava adicionando 90KB+ de peso e PageView duplicado.
+       O pixel agora dispara direto no HEAD. Eventos custom usam fbq() direto. -->
 
   <!-- Google Fonts NÃO bloqueante -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
@@ -1629,9 +1634,7 @@ function toggleFaq(btn) {
 }
 </script>
 
-<!-- ── GTM noscript (fallback sem JavaScript) ── -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58VNW6HN"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- GTM removido — pixel dispara direto no HEAD -->
 
 <!-- CAPI HELPER — server-side tracking via Cloudflare Worker -->
 <script>
@@ -1646,7 +1649,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       body:JSON.stringify({data:[{event_name:ev,event_time:Math.floor(Date.now()/1e3),event_source_url:location.href,event_id:eid,user_data:ud,custom_data:cd||{}}],fbclid:new URLSearchParams(location.search).get('fbclid')})
     }).catch(function(){});
     if(window.fbq)fbq('track',ev,cd||{},{eventID:eid});
-    if(window.dataLayer)dataLayer.push({event:'capi_'+ev.toLowerCase(),eventID:eid,eventData:cd||{}});
   };
   /* PageView CAPI — server-side (o client-side já disparou no head) */
   sendCAPI('PageView');
