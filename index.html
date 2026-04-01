@@ -4,26 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Metodo Florecer BY Helena Rodriguez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <script>
-    window.pixelId = "69cb295f725a1b96c762db43";
-    var a = document.createElement("script");
-    a.setAttribute("async", "");
-    a.setAttribute("defer", "");
-    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-    document.head.appendChild(a);
-  </script>
-
-  <!-- ── GTM Preconnect + Preload (melhora performance / LCP) ── -->
+  <!-- ── Preconnect crítico — estabelece conexão antecipada com origens externas ── -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://media.inlead.cloud" crossorigin />
   <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://img.youtube.com" />
+  <link rel="dns-prefetch" href="https://cdn.utmify.com.br" />
+
+  <!-- ── Google Fonts NÃO bloqueante (melhora LCP / FCP) ── -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+
+  <!-- ── Preload das fotos da etapa 1 (LCP crítico — carrega antes do JS) ── -->
+  <link rel="preload" as="image" href="https://media.inlead.cloud/uploads/48195/2026-02-26/md-rQOv0-screenshot-2026-02-26-at-001217.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="https://media.inlead.cloud/uploads/48195/2026-02-26/md-1pkG7-resized-face-centered-3.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="https://media.inlead.cloud/uploads/48195/2026-02-26/md-bkKAB-resized-face-centered-4.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="https://media.inlead.cloud/uploads/48195/2026-02-26/md-7Z88K-screenshot-2026-02-26-at-000203.png" fetchpriority="high" />
+
+  <!-- ── GTM Preload ── -->
   <link rel="preload" as="script" href="https://www.googletagmanager.com/gtm.js?id=GTM-58VNW6HN" />
 
-  <!-- ── Google Tag Manager ── substitua GTM-XXXXXXX pelo seu container ID ── -->
+  <!-- ── Google Tag Manager (async — não bloqueia render) ── -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-58VNW6HN');</script>
+
+  <!-- ── Utmify pixel — carrega após GTM, sem bloquear render ── -->
+  <script>
+    window.pixelId = "69cb295f725a1b96c762db43";
+    window.addEventListener('load', function() {
+      var a = document.createElement("script");
+      a.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
+      a.async = true;
+      document.head.appendChild(a);
+    });
+  </script>
 
   <!-- ── FBC Fix — captura fbclid e persiste como cookie 1st-party (90 dias) ── -->
   <script>
@@ -1182,19 +1200,19 @@ const steps = {
     </div>
     <div class="photo-grid">
       <button class="photo-opt" onclick="selectRadio('edad','30-39',this)">
-        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-rQOv0-screenshot-2026-02-26-at-001217.png" alt="30-39">
+        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-rQOv0-screenshot-2026-02-26-at-001217.png" alt="30-39" fetchpriority="high" decoding="async">
         <div class="photo-label">Edad: 30-39</div>
       </button>
       <button class="photo-opt" onclick="selectRadio('edad','40-49',this)">
-        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-1pkG7-resized-face-centered-3.jpg" alt="40-49">
+        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-1pkG7-resized-face-centered-3.jpg" alt="40-49" fetchpriority="high" decoding="async">
         <div class="photo-label">Edad: 40-49</div>
       </button>
       <button class="photo-opt" onclick="selectRadio('edad','50-59',this)">
-        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-bkKAB-resized-face-centered-4.jpg" alt="50-59">
+        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-bkKAB-resized-face-centered-4.jpg" alt="50-59" fetchpriority="high" decoding="async">
         <div class="photo-label">Edad: 50-59</div>
       </button>
       <button class="photo-opt" onclick="selectRadio('edad','+60',this)">
-        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-7Z88K-screenshot-2026-02-26-at-000203.png" alt="+60">
+        <img src="https://media.inlead.cloud/uploads/48195/2026-02-26/md-7Z88K-screenshot-2026-02-26-at-000203.png" alt="+60" fetchpriority="high" decoding="async">
         <div class="photo-label">Edad: +60</div>
       </button>
     </div>
