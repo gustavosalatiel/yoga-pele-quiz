@@ -4,59 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Metodo Florecer BY Helena Rodriguez</title>
-  <!-- ── Preconnect crítico — estabelece conexão antecipada com origens externas ── -->
+  <!-- PRIORIDADE 1: Preconnect para Meta Pixel (CRÍTICO para connect rate) -->
+  <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
+  <link rel="preconnect" href="https://www.facebook.com" crossorigin />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://media.inlead.cloud" crossorigin />
-  <link rel="preconnect" href="https://www.googletagmanager.com" />
   <link rel="dns-prefetch" href="https://img.youtube.com" />
   <link rel="dns-prefetch" href="https://cdn.utmify.com.br" />
 
-  <!-- ── Google Fonts NÃO bloqueante (melhora LCP / FCP) ── -->
+  <!-- PRIORIDADE 2: FBC cookie ANTES de qualquer pixel (sync, rápido) -->
+  <script>!function(){var q=new URLSearchParams(location.search),f=q.get('fbclid');if(f){var t=Math.floor(Date.now()/1e3);document.cookie='_fbc=fb.1.'+t+'.'+f+';expires='+(new Date(Date.now()+776e7)).toUTCString()+';path=/;SameSite=Lax'}}()</script>
+
+  <!-- PRIORIDADE 3: Meta Pixel DIRETO no HEAD (não depende de GTM!) -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1582812279615323');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1582812279615323&ev=PageView&noscript=1"/></noscript>
+
+  <!-- PRIORIDADE 4: GTM (async) -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','GTM-58VNW6HN');</script>
+
+  <!-- Google Fonts NÃO bloqueante -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
 
-  <!-- ── Preload das fotos da etapa 1 (LCP crítico — carrega antes do JS) ── -->
+  <!-- Preload fotos etapa 1 -->
   <link rel="preload" as="image" href="https://media.inlead.cloud/uploads/48195/2026-02-26/md-rQOv0-screenshot-2026-02-26-at-001217.png" fetchpriority="high" />
   <link rel="preload" as="image" href="https://media.inlead.cloud/uploads/48195/2026-02-26/md-1pkG7-resized-face-centered-3.jpg" fetchpriority="high" />
   <link rel="preload" as="image" href="https://media.inlead.cloud/uploads/48195/2026-02-26/md-bkKAB-resized-face-centered-4.jpg" fetchpriority="high" />
   <link rel="preload" as="image" href="https://media.inlead.cloud/uploads/48195/2026-02-26/md-7Z88K-screenshot-2026-02-26-at-000203.png" fetchpriority="high" />
 
-  <!-- ── GTM Preload ── -->
-  <link rel="preload" as="script" href="https://www.googletagmanager.com/gtm.js?id=GTM-58VNW6HN" />
-
-  <!-- ── Google Tag Manager (async — não bloqueia render) ── -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-58VNW6HN');</script>
-
-  <!-- ── Utmify pixel — carrega após GTM, sem bloquear render ── -->
-  <script>
-    window.pixelId = "69cb295f725a1b96c762db43";
-    window.addEventListener('load', function() {
-      var a = document.createElement("script");
-      a.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
-      a.async = true;
-      document.head.appendChild(a);
-    });
-  </script>
-
-  <!-- ── FBC Fix — captura fbclid e persiste como cookie 1st-party (90 dias) ── -->
-  <script>
-  (function(){
-    var q = new URLSearchParams(window.location.search);
-    var fbclid = q.get('fbclid');
-    if (fbclid) {
-      var ts  = Math.floor(Date.now() / 1000);
-      var fbc = 'fb.1.' + ts + '.' + fbclid;
-      var exp = new Date(Date.now() + 90 * 864e5).toUTCString();
-      document.cookie = '_fbc=' + encodeURIComponent(fbc) +
-        '; expires=' + exp + '; path=/; SameSite=Lax';
-    }
-  })();
-  </script>
+  <!-- Utmify — carrega só depois de tudo pronto -->
+  <script>window.pixelId="69cb295f725a1b96c762db43";window.addEventListener('load',function(){var a=document.createElement("script");a.src="https://cdn.utmify.com.br/scripts/pixel/pixel.js";a.async=!0;document.head.appendChild(a)})</script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1515,12 +1494,12 @@ const steps = {
     <div class="q-sub">Sin filtros, sin procedimientos — solo el método</div>
     <div class="video-grid">
       <div class="video-card" id="vc1">
-        <img src="https://img.youtube.com/vi/eNiC-aozrkY/mqdefault.jpg" alt="Testimonio 1" style="width:100%;height:100%;object-fit:cover;border-radius:12px;display:block">
+        <img src="https://img.youtube.com/vi/eNiC-aozrkY/mqdefault.jpg" alt="Testimonio 1" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px;display:block">
         <div class="video-play" onclick="playVideo('vc1','eNiC-aozrkY')"><div class="video-play-btn"></div></div>
         <div class="video-label">C · Helena</div>
       </div>
       <div class="video-card" id="vc2">
-        <img src="https://img.youtube.com/vi/a-8eGsGDhfg/mqdefault.jpg" alt="Testimonio 2" style="width:100%;height:100%;object-fit:cover;border-radius:12px;display:block">
+        <img src="https://img.youtube.com/vi/a-8eGsGDhfg/mqdefault.jpg" alt="Testimonio 2" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px;display:block">
         <div class="video-play" onclick="playVideo('vc2','a-8eGsGDhfg')"><div class="video-play-btn"></div></div>
         <div class="video-label">A · Helena</div>
       </div>
@@ -1654,63 +1633,23 @@ function toggleFaq(btn) {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58VNW6HN"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-<!-- ══════════════════════════════════════════════════════════════
-     CAPI HELPER — dispara eventos via Cloudflare Worker (proxy)
-     Substitua CAPI_WORKER_URL pela URL do seu Worker após o deploy
-     ══════════════════════════════════════════════════════════════ -->
+<!-- CAPI HELPER — server-side tracking via Cloudflare Worker -->
 <script>
 (function(){
-  // ── Substitua pela URL do seu Cloudflare Worker após o deploy ──
-  var CAPI_WORKER_URL = 'https://late-feather-031byoga-pele-capi.gustavosalatiel158.workers.dev';
-
-  window.sendCAPI = function(eventName, customData) {
-    var ud = {};
-    // FBP
-    var fbpM = document.cookie.match(/(^|;\s*)_fbp=([^;]+)/);
-    if (fbpM) ud.fbp = decodeURIComponent(fbpM[2]);
-    // FBC
-    var fbcM = document.cookie.match(/(^|;\s*)_fbc=([^;]+)/);
-    if (fbcM) ud.fbc = decodeURIComponent(fbcM[2]);
-
-    var eventId = 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-
-    // ── 1. Server-side via Worker (não bloqueado por iOS/adblocker) ──
-    fetch(CAPI_WORKER_URL + '/capi/events', {
-      method   : 'POST',
-      headers  : { 'Content-Type': 'application/json' },
-      keepalive: true,
-      body: JSON.stringify({
-        data: [{
-          event_name      : eventName,
-          event_time      : Math.floor(Date.now() / 1000),
-          event_source_url: window.location.href,
-          event_id        : eventId,
-          user_data       : ud,
-          custom_data     : customData || {}
-        }],
-        fbclid: new URLSearchParams(window.location.search).get('fbclid')
-      })
+  var W='https://late-feather-031byoga-pele-capi.gustavosalatiel158.workers.dev';
+  window.sendCAPI=function(ev,cd){
+    var ud={},m;
+    m=document.cookie.match(/(^|;\s*)_fbp=([^;]+)/);if(m)ud.fbp=decodeURIComponent(m[2]);
+    m=document.cookie.match(/(^|;\s*)_fbc=([^;]+)/);if(m)ud.fbc=decodeURIComponent(m[2]);
+    var eid='ev_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
+    fetch(W+'/capi/events',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:!0,
+      body:JSON.stringify({data:[{event_name:ev,event_time:Math.floor(Date.now()/1e3),event_source_url:location.href,event_id:eid,user_data:ud,custom_data:cd||{}}],fbclid:new URLSearchParams(location.search).get('fbclid')})
     }).catch(function(){});
-
-    // ── 2. Client-side Meta Pixel (deduplicado pelo event_id) ──
-    if (window.fbq) {
-      window.fbq('track', eventName, customData || {}, { eventID: eventId });
-    }
-
-    // ── 3. DataLayer GTM ──
-    if (window.dataLayer) {
-      window.dataLayer.push({
-        event   : 'capi_' + eventName.toLowerCase(),
-        eventID : eventId,
-        eventData: customData || {}
-      });
-    }
+    if(window.fbq)fbq('track',ev,cd||{},{eventID:eid});
+    if(window.dataLayer)dataLayer.push({event:'capi_'+ev.toLowerCase(),eventID:eid,eventData:cd||{}});
   };
-
-  // ── PageView automático no carregamento ──
-  window.addEventListener('DOMContentLoaded', function() {
-    sendCAPI('PageView');
-  });
+  /* PageView CAPI — server-side (o client-side já disparou no head) */
+  sendCAPI('PageView');
 })();
 </script>
 </body>
